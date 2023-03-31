@@ -8,7 +8,7 @@ const jsonParser = bodyParser.json();
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 // default
-router.get("/", (req, res) => res.send("Successfully listening requests."));
+router.get("/", (req, res) => res.send("Hey, Your Api works !!"));
 
 // Roles Routes
 router.get("/roles", fetchRoles);

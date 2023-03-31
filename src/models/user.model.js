@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
+const { COLLECTIONS } = require("../common/collections.const");
 
 const userSchema = new mongoose.Schema(
   {
     firstName: String,
     lastName: String,
-    mobile: String,
+    mobile: String, // should be unique and used for login
     address: String,
     village: String,
     city: String,
@@ -19,5 +20,5 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose.model("users", userSchema, "users");
+const User = mongoose.model("users", userSchema, COLLECTIONS.Users);
 module.exports = User;

@@ -6,6 +6,6 @@ const PORT = 1810;
 const app = express();
 
 db.connect();
-app.use(routes);
+app.use("/api", routes);
 
 app.listen(PORT, () => console.log("App started on port", PORT));

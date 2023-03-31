@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { COLLECTIONS } = require("../common/collections.const");
 const roleSchema = new mongoose.Schema(
   {
     role: { type: String, required: true },
@@ -12,4 +13,4 @@ const roleSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("role", roleSchema, "roles");
+module.exports = mongoose.model("role", roleSchema, COLLECTIONS.Roles);

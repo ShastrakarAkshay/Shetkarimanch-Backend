@@ -1,4 +1,4 @@
-export const HttpStatus = {
+const HttpStatus = {
   INFORMATION: {
     100: "Continue",
     101: "Switching protocols",
@@ -34,3 +34,5 @@ export const HttpStatus = {
     504: "Gateway timeout",
   },
 };
+
+module.exports = { HttpStatus };
