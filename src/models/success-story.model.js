@@ -2,8 +2,14 @@ const mongoose = require("mongoose");
 const { COLLECTIONS } = require("../common/collections.const");
 
 const farmerSchema = new mongoose.Schema({
-  firstName: String,
-  lastName: String,
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
   address: String,
   village: String,
   city: String,
@@ -19,13 +25,22 @@ const corpSchema = new mongoose.Schema({
 const successStorySchema = new mongoose.Schema(
   {
     image: Blob,
-    title: String,
-    description: String,
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
     farmerDetails: farmerSchema,
     corpInfo: corpSchema,
     youtubeLink: String,
     facebookLink: String,
-    createdBy: String | Number, // RoleId of logged in user
+    createdBy: {
+      type: String, // userId of creator
+      required: true,
+    },
   },
   {
     timestamps: {

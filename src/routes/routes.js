@@ -1,21 +1,26 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const { fetchRoles } = require("./roles.routes");
-const { fetchUsers, createUser, updateUser } = require("./users.routes");
+const {
+  fetchUsers,
+  fetchUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+} = require("./users.routes");
 
 const router = express.Router();
-const jsonParser = bodyParser.json();
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 // default
-router.get("/", (req, res) => res.send("Hey, Your Api works !!"));
+router.get("/", (req, res) => res.send("Hey, Your API works !!"));
 
 // Roles Routes
 router.get("/roles", fetchRoles);
 
 // Users Routes
 router.get("/users", fetchUsers);
-router.post("/user", jsonParser, createUser);
-router.put("/user", updateUser);
+router.post("/user", createUser);
+router.get("/user/:id", fetchUserById);
+router.put("/user/:id", updateUser);
+router.delete("/user/:id", deleteUser);
 
 module.exports = router;

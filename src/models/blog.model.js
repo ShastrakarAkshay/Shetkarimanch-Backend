@@ -4,10 +4,23 @@ const { COLLECTIONS } = require("../common/collections.const");
 const blogSchema = new mongoose.Schema(
   {
     image: Blog,
-    title: String,
-    category: String,
-    Content: String,
-    state: String, // Published | Draft
+    title: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+    Content: {
+      type: String,
+      required: true,
+    },
+    state: {
+      // Published | Draft
+      type: Number,
+      required: true,
+    },
   },
   {
     // bufferTimeoutMS // needs to learn

@@ -1,4 +1,4 @@
-const HttpStatus = {
+const HTTP_STATUS = {
   INFORMATION: {
     100: "Continue",
     101: "Switching protocols",
@@ -35,4 +35,4 @@ const HttpStatus = {
   },
 };
 
-module.exports = { HttpStatus };
+module.exports = { HTTP_STATUS };

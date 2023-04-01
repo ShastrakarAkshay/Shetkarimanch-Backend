@@ -3,9 +3,21 @@ const { COLLECTIONS } = require("../common/collections.const");
 
 const userSchema = new mongoose.Schema(
   {
-    firstName: String,
-    lastName: String,
-    mobile: String, // should be unique and used for login
+    mobile: {
+      type: Number,
+      required: true,
+      unique: true,
+      minlength: 10,
+      maxlength: 10,
+    },
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
     address: String,
     village: String,
     city: String,

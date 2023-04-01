@@ -10,6 +10,12 @@ const fetchUsers = (req, res) => {
     });
 };
 
+const fetchUserById = (req, res) => {
+  User.findById(req.params.id)
+    .then((data) => res.status(200).send(data))
+    .catch((err) => res.status(400).send(err));
+};
+
 const createUser = (req, res) => {
   const user = new User(req.body);
   user
@@ -19,11 +25,29 @@ const createUser = (req, res) => {
 };
 
 const updateUser = (req, res) => {
-  const filter = { name: "Jean-Luc Picard" };
-  const update = { age: 59 };
-  User.findOneAndUpdate(filter, update)
-    .then((data) => res.status(201).send(data))
+  User.findOneAndUpdate({ _id: req.params.id }, req.body)
+    .then((data) => {
+      data
+        ? res.status(200).send(data)
+        : res.status(404).send("User not found");
+    })
     .catch((err) => res.status(400).send(err));
 };
 
-module.exports = { fetchUsers, createUser, updateUser };
+const deleteUser = (req, res) => {
+  User.deleteOne({ _id: req.params.id })
+    .then((data) => {
+      data && data.deletedCount
+        ? res.status(200).send(data)
+        : res.status(404).send("User not found");
+    })
+    .catch((err) => res.status(400).send(err));
+};
+
+module.exports = {
+  fetchUsers,
+  fetchUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+};
