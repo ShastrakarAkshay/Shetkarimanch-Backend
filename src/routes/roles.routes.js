@@ -1,4 +1,5 @@
 const Roles = require("../models/roles.model");
+const router = require("express").Router();
 
 const fetchRoles = (req, res) => {
   Roles.find()
@@ -10,4 +11,6 @@ const fetchRoles = (req, res) => {
     });
 };
 
-module.exports = { fetchRoles };
+router.get("/", fetchRoles);
+
+module.exports = router;

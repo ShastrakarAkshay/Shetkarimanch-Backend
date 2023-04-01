@@ -3,7 +3,7 @@ const { COLLECTIONS } = require("../common/collections.const");
 
 const blogSchema = new mongoose.Schema(
   {
-    image: Blog,
+    image: String,
     title: {
       type: String,
       required: true,
