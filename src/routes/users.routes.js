@@ -1,7 +1,7 @@
 const User = require("../models/user.model");
 const router = require("express").Router();
 
-const fetchUsers = (req, res) => {
+const fetchAllUser = (req, res) => {
   User.find()
     .then((data) => {
       res.status(200).send(data);
@@ -14,7 +14,7 @@ const fetchUsers = (req, res) => {
 const fetchUserById = (req, res) => {
   User.findById(req.params.id)
     .then((data) => {
-      data ? res.status(200).send(data) : res.status(404).send("Invalid user.");
+      data ? res.status(200).send(data) : res.status(404).send("Invalid user");
     })
     .catch((err) => res.status(400).send(err));
 };
@@ -30,7 +30,7 @@ const createUser = (req, res) => {
 const updateUser = (req, res) => {
   User.findOneAndUpdate({ _id: req.params.id }, req.body)
     .then((data) => {
-      data ? res.status(200).send(data) : res.status(404).send("Invalid user.");
+      data ? res.status(200).send(data) : res.status(404).send("Invalid user");
     })
     .catch((err) => res.status(400).send(err));
 };
@@ -40,13 +40,13 @@ const deleteUser = (req, res) => {
     .then((data) => {
       data && data.deletedCount
         ? res.status(200).send(data)
-        : res.status(404).send("Invalid user.");
+        : res.status(404).send("Invalid user");
     })
     .catch((err) => res.status(400).send(err));
 };
 
 router.post("/", createUser);
-router.get("/list", fetchUsers);
+router.get("/list", fetchAllUser);
 router.get("/:id", fetchUserById);
 router.put("/:id", updateUser);
 router.delete("/:id", deleteUser);

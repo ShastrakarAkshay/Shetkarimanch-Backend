@@ -17,8 +17,11 @@ const blogSchema = new mongoose.Schema(
       required: true,
     },
     state: {
-      // Published | Draft
       type: Number,
+      enum: {
+        values: [1, 2],
+        message: "{VALUE} is not supported",
+      },
       required: true,
     },
   },

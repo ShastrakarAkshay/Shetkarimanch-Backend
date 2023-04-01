@@ -24,7 +24,7 @@ const corpSchema = new mongoose.Schema({
 
 const successStorySchema = new mongoose.Schema(
   {
-    image: Blob,
+    image: String,
     title: {
       type: String,
       required: true,
@@ -34,7 +34,7 @@ const successStorySchema = new mongoose.Schema(
       required: true,
     },
     farmerDetails: farmerSchema,
-    corpInfo: corpSchema,
+    corpInfo: [corpSchema],
     youtubeLink: String,
     facebookLink: String,
     createdBy: {
