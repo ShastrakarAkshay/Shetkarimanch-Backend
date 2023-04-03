@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const authRoutes = require("./auth.routes");
-const rolesRoutes = require("./roles.routes");
-const usersRoutes = require("./users.routes");
-const blogsRoutes = require("./blogs.routes");
-const successStoryRoutes = require("./success-stories.routes");
+const authRoutes = require("./routes/auth.routes");
+const rolesRoutes = require("./routes/roles.routes");
+const usersRoutes = require("./routes/users.routes");
+const blogsRoutes = require("./routes/blogs.routes");
+const successStoryRoutes = require("./routes/success-stories.routes");
 
 // default
 router.get("/", (req, res) => res.send("Hey, Your API works !!"));
