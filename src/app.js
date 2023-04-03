@@ -13,4 +13,4 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 db.connect();
 app.use("/api", jsonParser, routes);
 
-app.listen(PORT, () => console.log("App started on port", PORT));
+app.listen(PORT, () => console.log("App is running on port", PORT));
