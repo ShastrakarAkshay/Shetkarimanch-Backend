@@ -18,7 +18,7 @@ router.use("/roles", rolesRoutes);
 router.use("/user", usersRoutes);
 
 // Blogs Rotues
-router.use("/blogs", blogsRoutes);
+router.use("/blog", blogsRoutes);
 
 // Success Stories
 router.use("/success-story", successStoryRoutes);
