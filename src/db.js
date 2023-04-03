@@ -4,10 +4,11 @@ const username = "AkshayShastrakar";
 const password = "FDZu1v4JPa2FCbyq";
 const database = "ShetkiManch";
 const URL = `mongodb+srv://${username}:${password}@shetkimanch.wq66pzi.mongodb.net/${database}?retryWrites=true&w=majority`;
+const MONGO_URL = process.env.MONGO_URL || URL;
 
 const connect = () => {
   mongoose
-    .connect(URL, {
+    .connect(MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       serverApi: ServerApiVersion.v1,
