@@ -9,16 +9,15 @@ const validateUserExistence = (req, res) => {
     .catch((err) => res.status(404).send(false));
 };
 
-const sendOTP = (req, res) => {
-  // http://login.wishbysms.com/api/sendhttp.php?authkey=65497AZmUVzmQVV63f4c90fP1&mobiles=(var2)&message=Dear Farmer, Your Agriculture Grievance projects One Time Verification Code OTP is (var1) thank you POWERED BY MTJF&sender=grAGRO&route=4&country=91&DLT_TE_ID=1307166952390775178
-  const mobile = req.params.mobile;
+const generateOTP = (req, res) => {
+  const otp = Math.floor(100000 + Math.random() * 900000);
   const URL = `http://login.wishbysms.com/api/sendhttp.php`;
   axios
     .get(URL, {
       params: {
         authkey: "65497AZmUVzmQVV63f4c90fP1",
-        mobiles: "9767986750",
-        message: "Hello Akshay",
+        mobiles: req.params.mobile,
+        message: `Dear Farmer, Your Agriculture Grievance projects One Time Verification Code OTP is ${otp} thank you POWERED BY MTJF`,
         sender: "grAGRO",
         route: 4,
         country: 91,
@@ -27,8 +26,22 @@ const sendOTP = (req, res) => {
     })
     .then((data) => {
       res.status(200).send(data);
+      // store otp in users db
+      // dont store actual otp
+      // encrypt otp and save in db
     })
     .catch((err) => res.status(400).send(err));
 };
 
-module.exports = { sendOTP, validateUserExistence };
+const verifyOTP = (req, res) => {
+  // get otp from user
+  // validate from db
+  // decrypt otp
+  // if is valid then allow registration or login
+};
+
+module.exports = {
+  validateUserExistence,
+  generateOTP,
+  verifyOTP,
+};
