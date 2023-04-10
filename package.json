@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./src/app.js",
-    "watch": "nodemon ./src/app.js"
+    "watch": "nodemon ./src/app.js",
+    "format": "prettier --write \"src/**/*.{js,html}\""
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +22,7 @@
     "mongoose": "^7.0.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.7"
   }
 }

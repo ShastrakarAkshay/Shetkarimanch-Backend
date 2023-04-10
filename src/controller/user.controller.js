@@ -22,7 +22,11 @@ const createUser = (req, res) => {
   const user = new User(req.body);
   user
     .save()
-    .then((data) => res.status(201).send(data))
+    .then((data) => {
+      // create jwt token and store in user collection
+      // create login session
+      res.status(201).send(data);
+    })
     .catch((err) => res.status(400).send(err));
 };
 
