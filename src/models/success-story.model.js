@@ -12,7 +12,7 @@ const farmerSchema = new mongoose.Schema({
   },
   address: String,
   village: String,
-  city: String,
+  taluka: String,
   district: String,
   pinCode: Number,
 });

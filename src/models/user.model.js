@@ -20,9 +20,13 @@ const userSchema = new mongoose.Schema(
     },
     address: String,
     village: String,
-    city: String,
+    taluka: String,
     district: String,
     pinCode: Number,
+    tokens: {
+      hashedOtp: String,
+      authToken: String,
+    },
   },
   {
     timestamps: {

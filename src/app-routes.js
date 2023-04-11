@@ -5,6 +5,7 @@ const usersRoutes = require("./routes/users.routes");
 const blogsRoutes = require("./routes/blogs.routes");
 const successStoryRoutes = require("./routes/success-stories.routes");
 const registerRoutes = require("./routes/register.routes");
+const loginRoutes = require("./routes/login.routes");
 
 // default
 router.get("/", (req, res) => res.send("Hey, Your API works !!"));
@@ -15,8 +16,8 @@ router.use("/auth", authRoutes);
 // Register
 router.use("/register", registerRoutes);
 
-// // Login
-// router.use("/login", loginRoutes);
+// Login
+router.use("/login", loginRoutes);
 
 // Roles Routes
 router.use("/roles", rolesRoutes);
