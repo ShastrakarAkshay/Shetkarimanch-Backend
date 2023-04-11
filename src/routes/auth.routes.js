@@ -1,13 +1,14 @@
 const router = require("express").Router();
 const {
   validateUserExistence,
-  generateOTP,
+  sendOtp,
+  verifyOtp,
   registerUser,
 } = require("../controller/auth.controller");
 
-router.get("/exist/:mobile", validateUserExistence);
-router.get("/otp/generate/:mobile", generateOTP);
-router.get("/otp/validate/:mobile", generateOTP);
-router.get("/register/user", registerUser);
+router.get("/user/exist/:mobile", validateUserExistence);
+router.get("/register/otp/generate/:mobile", sendOtp);
+router.get("/register/otp/validate/:otp", verifyOtp);
+router.post("/register/user", registerUser);
 
 module.exports = router;

@@ -4,47 +4,20 @@ const bcrypt = require("../utils/bcrypt.util");
 const appUtil = require("../utils/app.util");
 const userController = require("./user.controller");
 
-const generateAndStoreOtpInCookie = async (req, res) => {
-  const otp = Math.floor(100000 + Math.random() * 900000);
-  const hashedOtp = await bcrypt.encrypt(otp);
-  res.cookie(process.env.REGISTER_OTP_TOKEN, hashedOtp, {
-    httpOnly: true,
-    secure: true,
-    expires: appUtil.getExpiryTime(2),
-  });
-  return await generateOTP(req, res, otp);
-};
-
-const registerUser = async (req, res) => {
-  // send plain and store hashed otp in cookie with expiry as 2min
-  const success = await generateAndStoreOtpInCookie(req, res);
-  if (success) {
-    // decrypt otp from cookie and compare with user data
-    const userData = res.body;
-    const hashedOtp = cookie.get(process.env.REGISTER_OTP_TOKEN);
-    const valid = await bcrypt.compare(userData.otp, hashedOtp);
-    // if valid then allow registration
-    if (valid) {
-      userController.createUser(req, res);
-    }
-  }
-  // after registration store logged in data in session
-};
-
 const validateUserExistence = (req, res) => {
   User.findOne({ mobile: Number(req.params.mobile) })
     .then((data) => {
       data ? res.status(200).send(true) : res.status(404).send(false);
     })
-    .catch((err) => res.status(404).send(false));
+    .catch(() => res.status(404).send(false));
 };
 
-const generateOTP = (req, res, otp) => {
+const generateOTP = (req, res, otp, mobile) => {
   const URL = `http://login.wishbysms.com/api/sendhttp.php`;
   return axios.get(URL, {
     params: {
       authkey: "65497AZmUVzmQVV63f4c90fP1",
-      mobiles: req.params.mobile,
+      mobiles: mobile,
       message: `Dear Farmer, Your Agriculture Grievance projects One Time Verification Code OTP is ${otp} thank you POWERED BY MTJF`,
       sender: "grAGRO",
       route: 4,
@@ -54,16 +27,39 @@ const generateOTP = (req, res, otp) => {
   });
 };
 
-const verifyOTP = (req, res) => {
-  // get otp from user
-  // validate from db
-  // decrypt otp
-  // if is valid then allow registration or login
+const sendOtp = async (req, res) => {
+  const otp = Math.floor(100000 + Math.random() * 900000);
+  const hashedOtp = await bcrypt.encrypt(otp);
+  res.cookie("sm-reg-otp-token", hashedOtp, {
+    httpOnly: true,
+    secure: true,
+    expires: appUtil.getExpiryTime(2),
+  });
+  const success = await generateOTP(req, res, otp, req.params.mobile);
+  success && success.data
+    ? res.status(200).send(true)
+    : res.status(400).send(false);
+};
+
+const verifyOtp = async (req, res) => {
+  const userOtp = req.params.otp;
+  const hashedOtp = req.cookies["sm-reg-otp-token"];
+  if (hashedOtp) {
+    const valid = await bcrypt.compare(userOtp, hashedOtp);
+    valid ? res.status(200).send(true) : res.status(400).send(false);
+  } else {
+    res.status(400).send(false);
+  }
+};
+
+const registerUser = (req, res) => {
+  userController.createUser(req, res);
 };
 
 module.exports = {
   validateUserExistence,
   generateOTP,
-  verifyOTP,
+  sendOtp,
+  verifyOtp,
   registerUser,
 };
