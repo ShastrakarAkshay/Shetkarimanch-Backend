@@ -1,7 +1,10 @@
 const User = require("../models/user.model");
 
 const fetchAllUser = (req, res) => {
-  User.find()
+  const query = User.find();
+  query.select("-tokens");
+  query
+    .exec()
     .then((data) => {
       res.status(200).send(data);
     })
