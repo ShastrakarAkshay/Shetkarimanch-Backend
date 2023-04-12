@@ -23,7 +23,7 @@ const verifyOtpAndRegister = async (req, res) => {
     res.status(400).send(Response.success(Message.userAlreadyExists));
     return;
   }
-  const userOtp = req.params.otp;
+  const userOtp = req.body.otp;
   const hashedOtp = req.cookies[process.env.REGISTER_OTP_SECRET_KEY];
   if (hashedOtp) {
     const valid = await bcrypt.compare(userOtp, hashedOtp);

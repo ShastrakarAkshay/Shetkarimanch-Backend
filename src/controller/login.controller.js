@@ -24,8 +24,7 @@ const validateUserAndSendOTP = async (req, res) => {
 };
 
 const verifyOtpAndLogin = async (req, res) => {
-  const mobile = req.body.mobile;
-  const otp = req.params.otp;
+  const { mobile, otp } = req.body;
   const user = await User.findOne({ mobile: Number(mobile) });
   if (user) {
     const valid = await bcrypt.compare(otp, user.hashedOtp);
