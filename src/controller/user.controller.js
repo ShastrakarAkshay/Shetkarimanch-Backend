@@ -2,7 +2,7 @@ const User = require("../models/user.model");
 
 const fetchAllUser = (req, res) => {
   const query = User.find();
-  query.select("-tokens");
+  query.select("-authToken -hashedOtp");
   query
     .exec()
     .then((data) => {
@@ -38,9 +38,7 @@ const updateUser = (req, res) => {
   if (hasData) {
     User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
       .then((data) => {
-        data
-          ? res.status(200).send(data)
-          : res.status(404).send("Invalid user");
+        data ? res.status(200).send(data) : res.status(404).send("Invalid user");
       })
       .catch((err) => res.status(400).send(err));
   } else {
@@ -51,9 +49,7 @@ const updateUser = (req, res) => {
 const deleteUser = (req, res) => {
   User.deleteOne({ _id: req.params.id })
     .then((data) => {
-      data && data.deletedCount
-        ? res.status(200).send(data)
-        : res.status(404).send("Invalid user");
+      data && data.deletedCount ? res.status(200).send(data) : res.status(404).send("Invalid user");
     })
     .catch((err) => res.status(400).send(err));
 };
