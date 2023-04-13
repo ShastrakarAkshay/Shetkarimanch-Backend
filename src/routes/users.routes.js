@@ -1,11 +1,5 @@
 const router = require("express").Router();
-const {
-  fetchAllUser,
-  fetchUserById,
-  createUser,
-  updateUser,
-  deleteUser,
-} = require("../controller/user.controller");
+const { fetchAllUser, fetchUserById, createUser, updateUser, deleteUser } = require("../controller/user.controller");
 
 router.post("/", createUser);
 router.get("/list", fetchAllUser);

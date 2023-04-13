@@ -10,7 +10,7 @@ const roleSchema = new mongoose.Schema(
       created_at: "create_at",
       updated_at: "updated_at",
     },
-  }
+  },
 );
 
 module.exports = mongoose.model("role", roleSchema, COLLECTIONS.Roles);

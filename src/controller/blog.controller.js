@@ -16,9 +16,7 @@ const fetchAllBlogs = (req, res) => {
 
 const fetchBlobById = (req, res) => {
   Blog.findOne({ _id: req.params.id })
-    .then((data) =>
-      data ? res.status(200).send(data) : res.status(400).send("Invalid blog")
-    )
+    .then((data) => (data ? res.status(200).send(data) : res.status(400).send("Invalid blog")))
     .catch((err) => res.status(400).send(err));
 };
 
@@ -27,9 +25,7 @@ const updateBlogById = (req, res) => {
   if (hasData) {
     Blog.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
       .then((data) => {
-        data
-          ? res.status(200).send(data)
-          : res.status(404).send("Invalid blog");
+        data ? res.status(200).send(data) : res.status(404).send("Invalid blog");
       })
       .catch((err) => res.status(400).send(err));
   } else {
@@ -40,9 +36,7 @@ const updateBlogById = (req, res) => {
 const deleteBlogById = (req, res) => {
   Blog.deleteOne({ _id: req.params.id })
     .then((data) => {
-      data && data.deletedCount
-        ? res.status(200).send(data)
-        : res.status(404).send("Invalid blog");
+      data && data.deletedCount ? res.status(200).send(data) : res.status(404).send("Invalid blog");
     })
     .catch((err) => res.status(400).send(err));
 };

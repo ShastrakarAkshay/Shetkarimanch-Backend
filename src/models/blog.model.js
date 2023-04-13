@@ -31,7 +31,7 @@ const blogSchema = new mongoose.Schema(
       created_at: "created_at",
       updated_at: "updated_at",
     },
-  }
+  },
 );
 
 module.exports = mongoose.model("blogs", blogSchema, COLLECTIONS.Blogs);
