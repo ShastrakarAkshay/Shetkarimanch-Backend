@@ -9,15 +9,11 @@ const validateUserAndSendOTP = async (req, res) => {
   const user = await User.findOne({ mobile: Number(mobile) });
   if (user) {
     const otp = Math.floor(100000 + Math.random() * 900000);
-    const hashedOtp = await bcrypt.encrypt(otp);
+    await user.generateOtpToken(otp);
     const success = await sendSms(otp, mobile);
-    if (success && success.data) {
-      User.findOneAndUpdate({ _id: user._id }, { hashedOtp }, { new: true })
-        .then(() => res.status(200).send(Response.success(Message.otpSentSuccessfully)))
-        .catch(() => res.status(400).send(Response.error(Message.somethingWentWrong)));
-    } else {
-      res.status(400).send(Response.error(Message.somethingWentWrong));
-    }
+    success && success.data
+      ? res.status(200).send(Response.success(Message.otpSentSuccessfully))
+      : res.status(400).send(Response.error(Message.unableToSendOtp));
   } else {
     res.status(404).send(Response.error(Message.userDoesNotExists));
   }
@@ -27,8 +23,8 @@ const verifyOtpAndLogin = async (req, res) => {
   const { mobile, otp } = req.body;
   const user = await User.findOne({ mobile: Number(mobile) });
   if (user) {
-    const valid = await bcrypt.compare(otp, user.hashedOtp);
-    if (valid) {
+    const savedOtp = await user.verifyOtpToken();
+    if (Number(otp) === Number(savedOtp)) {
       const token = await user.generateAuthToken();
       res.cookie(process.env.AUTH_SECRET_KEY, token, {
         httpOnly: true,

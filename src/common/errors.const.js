@@ -6,6 +6,7 @@ const Message = {
   somethingWentWrong: "Something went wrong",
   invalidOtp: "Invalid OTP",
   otpSentSuccessfully: "OTP sent successfully",
+  unableToSendOtp: "Unable to send OTP",
   loginSuccess: "Login seccessfully",
 };
 

@@ -47,11 +47,7 @@ const successStorySchema = new mongoose.Schema(
       created_at: "created_at",
       updated_at: "updated_at",
     },
-  }
+  },
 );
 
-module.exports = mongoose.model(
-  "success-story",
-  successStorySchema,
-  COLLECTIONS.SuccessStories
-);
+module.exports = mongoose.model("success-story", successStorySchema, COLLECTIONS.SuccessStories);

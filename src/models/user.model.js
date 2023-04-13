@@ -24,8 +24,18 @@ const userSchema = new mongoose.Schema(
     taluka: String,
     district: String,
     pinCode: Number,
-    authToken: String,
-    hashedOtp: String,
+    roleId: {
+      type: Number || String,
+      default: 1,
+      enum: {
+        values: [1, 2],
+        message: "{VALUE} is not supported",
+      },
+    },
+    tokens: {
+      authToken: String,
+      otpToken: String,
+    },
   },
   {
     timestamps: {
@@ -37,11 +47,44 @@ const userSchema = new mongoose.Schema(
 
 userSchema.methods.generateAuthToken = async function () {
   const token = jwt.sign({ _id: this._id.toString() }, process.env.AUTH_SECRET_KEY, {
-    expiresIn: "1h",
+    expiresIn: 60 * 60, // 1 hour
   });
-  this.authToken = token;
+  this.tokens.authToken = token;
   await this.save();
   return token;
+};
+
+userSchema.methods.generateOtpToken = async function (otp) {
+  const token = jwt.sign({ _otp: otp.toString() }, process.env.OTP_SECRET_KEY, {
+    expiresIn: 60 * 3, // 3 minutes
+  });
+  this.tokens.otpToken = token;
+  await this.save();
+  return token;
+};
+
+userSchema.methods.verifyOtpToken = async function () {
+  const { _otp } = jwt.verify(this.tokens.otpToken, process.env.OTP_SECRET_KEY);
+  return _otp;
+};
+
+// for registration
+userSchema.statics.generateRegOtpToken = async function (otp, mobile) {
+  const regOtpToken = jwt.sign(
+    {
+      _otp: otp.toString(),
+      _mobile: mobile.toString(),
+    },
+    process.env.REGISTER_OTP_SECRET_KEY,
+    {
+      expiresIn: 60 * 3, // 3 minutes
+    },
+  );
+  return regOtpToken;
+};
+
+userSchema.statics.verifyRegOtpToken = async function (token) {
+  return jwt.verify(token, process.env.REGISTER_OTP_SECRET_KEY);
 };
 
 const User = mongoose.model("users", userSchema, COLLECTIONS.Users);
