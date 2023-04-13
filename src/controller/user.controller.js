@@ -2,7 +2,7 @@ const User = require("../models/user.model");
 
 const fetchAllUser = (req, res) => {
   const query = User.find();
-  query.select("-authToken -hashedOtp");
+  query.select("-tokens");
   query
     .exec()
     .then((data) => {

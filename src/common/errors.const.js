@@ -5,6 +5,7 @@ const Message = {
   badRequest: "Bad request",
   somethingWentWrong: "Something went wrong",
   invalidOtp: "Invalid OTP",
+  otpExpired: "OTP expired",
   otpSentSuccessfully: "OTP sent successfully",
   unableToSendOtp: "Unable to send OTP",
   loginSuccess: "Login seccessfully",

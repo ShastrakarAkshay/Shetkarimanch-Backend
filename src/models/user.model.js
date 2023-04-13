@@ -83,9 +83,5 @@ userSchema.statics.generateRegOtpToken = async function (otp, mobile) {
   return regOtpToken;
 };
 
-userSchema.statics.verifyRegOtpToken = async function (token) {
-  return jwt.verify(token, process.env.REGISTER_OTP_SECRET_KEY);
-};
-
 const User = mongoose.model("users", userSchema, COLLECTIONS.Users);
 module.exports = User;
