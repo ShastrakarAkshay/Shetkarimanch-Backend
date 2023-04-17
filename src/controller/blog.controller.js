@@ -1,7 +1,11 @@
 const Blog = require("../models/blog.model");
+const multer = require("../utils/multer.util");
 
 const createBlog = (req, res) => {
-  const blog = new Blog(req.body);
+  const blog = new Blog({
+    ...req.body,
+    image: multer.readFile(req.file.filename),
+  });
   blog
     .save()
     .then((data) => res.status(200).send(data))
@@ -16,7 +20,13 @@ const fetchAllBlogs = (req, res) => {
 
 const fetchBlobById = (req, res) => {
   Blog.findOne({ _id: req.params.id })
-    .then((data) => (data ? res.status(200).send(data) : res.status(400).send("Invalid blog")))
+    .then((data) => {
+      if (data) {
+        res.status(200).send(data);
+      } else {
+        res.status(400).send("Invalid blog");
+      }
+    })
     .catch((err) => res.status(400).send(err));
 };
 

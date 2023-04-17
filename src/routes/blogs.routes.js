@@ -7,7 +7,9 @@ const {
   deleteBlogById,
 } = require("../controller/blog.controller");
 
-router.post("/", createBlog);
+const multer = require("../utils/multer.util");
+
+router.post("/", multer.single("image"), createBlog);
 router.get("/list", fetchAllBlogs);
 router.get("/:id", fetchBlobById);
 router.put("/:id", updateBlogById);

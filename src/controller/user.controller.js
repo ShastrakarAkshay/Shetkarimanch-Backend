@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const { Response, Message } = require("../common/errors.const");
 
 const fetchAllUser = (req, res) => {
   const query = User.find();
@@ -9,25 +10,24 @@ const fetchAllUser = (req, res) => {
       res.status(200).send(data);
     })
     .catch((err) => {
-      res.status(400).send(err);
+      res.status(400).send(Response.error(Message.somethingWentWrong));
     });
 };
 
 const fetchUserById = (req, res) => {
   User.findById(req.params.id)
     .then((data) => {
-      data ? res.status(200).send(data) : res.status(404).send("Invalid user");
+      data ? res.status(200).send(data) : res.status(404).send(Response.error(Message.userDoesNotExists));
     })
     .catch((err) => res.status(400).send(err));
 };
 
+// should deprecate
 const createUser = (req, res) => {
   const user = new User(req.body);
   user
     .save()
     .then((data) => {
-      // create jwt token and store in user collection
-      // create login session
       res.status(201).send(data);
     })
     .catch((err) => res.status(400).send(err));
@@ -38,18 +38,20 @@ const updateUser = (req, res) => {
   if (hasData) {
     User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
       .then((data) => {
-        data ? res.status(200).send(data) : res.status(404).send("Invalid user");
+        data ? res.status(200).send(data) : res.status(404).send(Response.error(Message.somethingWentWrong));
       })
       .catch((err) => res.status(400).send(err));
   } else {
-    res.status(400).send("Bad request");
+    res.status(400).send(Response.error(Message.badRequest));
   }
 };
 
 const deleteUser = (req, res) => {
   User.deleteOne({ _id: req.params.id })
     .then((data) => {
-      data && data.deletedCount ? res.status(200).send(data) : res.status(404).send("Invalid user");
+      data && data.deletedCount
+        ? res.status(200).send(data)
+        : res.status(404).send(Response.error(Message.userDoesNotExists));
     })
     .catch((err) => res.status(400).send(err));
 };

@@ -3,7 +3,9 @@ const { COLLECTIONS } = require("../common/collections.const");
 
 const blogSchema = new mongoose.Schema(
   {
-    image: String,
+    image: {
+      type: Buffer,
+    },
     title: {
       type: String,
       required: true,
