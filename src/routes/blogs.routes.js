@@ -8,8 +8,9 @@ const {
 } = require("../controller/blog.controller");
 
 const multer = require("../utils/multer.util");
+const destination = "./uploads/blogs";
 
-router.post("/", multer.single("image"), createBlog);
+router.post("/", multer.single("image", destination), createBlog);
 router.get("/list", fetchAllBlogs);
 router.get("/:id", fetchBlobById);
 router.put("/:id", updateBlogById);

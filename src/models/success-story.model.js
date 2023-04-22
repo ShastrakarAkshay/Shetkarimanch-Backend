@@ -24,7 +24,9 @@ const corpSchema = new mongoose.Schema({
 
 const successStorySchema = new mongoose.Schema(
   {
-    image: String,
+    image: {
+      type: Buffer,
+    },
     title: {
       type: String,
       required: true,

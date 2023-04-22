@@ -6,8 +6,10 @@ const {
   updateStoryById,
   deleteStoryById,
 } = require("../controller/success-story.controller");
+const multer = require("../utils/multer.util");
+const destination = "./uploads/stories";
 
-router.post("/", createStory);
+router.post("/", multer.single("image", destination), createStory);
 router.get("/list", fetchAllStories);
 router.get("/:id", fetchStoryById);
 router.put("/:id", updateStoryById);

@@ -2,21 +2,20 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    return cb(null, "./uploads");
-  },
-  filename: (req, file, cb) => {
-    return cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
-
-const single = (name) => {
+const single = (name, destination) => {
+  const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      return cb(null, destination);
+    },
+    filename: (req, file, cb) => {
+      return cb(null, `${Date.now()}-${file.originalname}`);
+    },
+  });
   return multer({ storage }).single(name);
 };
 
-const readFile = (fileName) => {
-  return fs.readFileSync(path.join("./uploads/" + fileName));
+const readFile = (fileName, destination) => {
+  return fs.readFileSync(path.join(destination + "/" + fileName));
 };
 
 module.exports = { single, readFile };

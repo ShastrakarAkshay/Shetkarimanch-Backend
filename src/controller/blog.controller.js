@@ -1,10 +1,11 @@
 const Blog = require("../models/blog.model");
 const multer = require("../utils/multer.util");
+const destination = "./uploads/blogs";
 
 const createBlog = (req, res) => {
   const blog = new Blog({
     ...req.body,
-    image: multer.readFile(req.file.filename),
+    image: multer.readFile(req.file.filename, destination),
   });
   blog
     .save()

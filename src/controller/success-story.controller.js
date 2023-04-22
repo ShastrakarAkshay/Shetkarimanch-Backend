@@ -1,4 +1,6 @@
 const SuccessStory = require("../models/success-story.model");
+const multer = require("../utils/multer.util");
+const destination = "./uploads/stories";
 
 const fetchAllStories = (req, res) => {
   SuccessStory.find()
@@ -7,7 +9,10 @@ const fetchAllStories = (req, res) => {
 };
 
 const createStory = (req, res) => {
-  const story = new SuccessStory(req.body);
+  const story = new SuccessStory({
+    ...req.body,
+    image: multer.readFile(req.file.filename, destination),
+  });
   story
     .save()
     .then((data) => res.status(200).send(data))
