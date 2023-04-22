@@ -1,9 +1,9 @@
-const SuccessStory = require("../models/success-story.model");
 const path = require("path");
-const fs = require("fs");
+const SuccessStory = require("../models/success-story.model");
+const multer = require("../utils/multer.util");
 const destination = "./uploads/stories";
-const baseImgUrl = path.join(__dirname + `../../../${destination}`);
 const imgAPI = "/api/success-story/file";
+const baseImgUrl = path.join(__dirname + `../../../${destination}`);
 
 const fetchAllStories = (req, res) => {
   SuccessStory.find()
@@ -21,7 +21,7 @@ const createStory = (req, res) => {
     .save()
     .then((data) => res.status(200).send(data))
     .catch((err) => {
-      deleteImage(fileName);
+      multer.deleteFile(destination, fileName);
       res.status(400).send(err);
     });
 };
@@ -50,7 +50,7 @@ const updateStoryById = (req, res) => {
 const deleteStoryById = (req, res) => {
   SuccessStory.findOneAndDelete({ _id: req.params.id })
     .then((data) => {
-      deleteImage(data.image.name);
+      multer.deleteFile(destination, data.image.name);
       res.status(200).send(data);
     })
     .catch((err) => res.status(400).send(err));
@@ -58,14 +58,6 @@ const deleteStoryById = (req, res) => {
 
 const getStoryImage = (req, res) => {
   res.sendFile(`${baseImgUrl}/${req.params.image}`);
-};
-
-const deleteImage = (fileName) => {
-  try {
-    fs.unlinkSync(`${destination}/${fileName}`);
-  } catch (err) {
-    return res.status(400).send(err);
-  }
 };
 
 module.exports = {

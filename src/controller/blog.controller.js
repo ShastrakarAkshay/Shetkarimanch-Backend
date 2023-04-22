@@ -1,9 +1,9 @@
-const Blog = require("../models/blog.model");
 const path = require("path");
-const fs = require("fs");
+const Blog = require("../models/blog.model");
+const multer = require("../utils/multer.util");
 const destination = "./uploads/blogs";
-const baseImgUrl = path.join(__dirname + `../../../${destination}`);
 const imgAPI = "/api/blog/file";
+const baseImgUrl = path.join(__dirname + `../../../${destination}`);
 
 const createBlog = (req, res) => {
   const fileName = req.file.filename;
@@ -18,7 +18,7 @@ const createBlog = (req, res) => {
     .save()
     .then((data) => res.status(200).send(data))
     .catch((err) => {
-      deleteImage(fileName);
+      multer.deleteFile(destination, fileName);
       res.status(400).send(err);
     });
 };
@@ -57,7 +57,7 @@ const updateBlogById = (req, res) => {
 const deleteBlogById = (req, res) => {
   Blog.findOneAndDelete({ _id: req.params.id })
     .then((data) => {
-      deleteImage(data.image.name);
+      multer.deleteFile(destination, data.image.name);
       res.status(200).send(data);
     })
     .catch((err) => res.status(400).send(err));
@@ -65,14 +65,6 @@ const deleteBlogById = (req, res) => {
 
 const getBlogImage = (req, res) => {
   res.sendFile(`${baseImgUrl}/${req.params.image}`);
-};
-
-const deleteImage = (fileName) => {
-  try {
-    fs.unlinkSync(`${destination}/${fileName}`);
-  } catch (err) {
-    return res.status(400).send(err);
-  }
 };
 
 module.exports = {

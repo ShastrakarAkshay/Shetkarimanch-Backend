@@ -18,4 +18,12 @@ const readFile = (fileName, destination) => {
   return fs.readFileSync(path.join(destination + "/" + fileName));
 };
 
-module.exports = { single, readFile };
+const deleteFile = (destination, fileName) => {
+  try {
+    fs.unlinkSync(`${destination}/${fileName}`);
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+
+module.exports = { single, readFile, deleteFile };
