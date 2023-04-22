@@ -1,20 +1,26 @@
 const Blog = require("../models/blog.model");
-const multer = require("../utils/multer.util");
-const destination = "./uploads/blogs";
 const path = require("path");
+const fs = require("fs");
+const destination = "./uploads/blogs";
 const baseImgUrl = path.join(__dirname + `../../../${destination}`);
 const imgAPI = "/api/blog/file";
 
 const createBlog = (req, res) => {
+  const fileName = req.file.filename;
   const blog = new Blog({
     ...req.body,
-    image: `${imgAPI}/${req.file.filename}`,
+    image: {
+      url: `${imgAPI}/${fileName}`,
+      name: fileName,
+    },
   });
-  // delete image if save fails
   blog
     .save()
     .then((data) => res.status(200).send(data))
-    .catch((err) => res.status(400).send(err));
+    .catch((err) => {
+      deleteImage(fileName);
+      res.status(400).send(err);
+    });
 };
 
 const fetchAllBlogs = (req, res) => {
@@ -49,16 +55,24 @@ const updateBlogById = (req, res) => {
 };
 
 const deleteBlogById = (req, res) => {
-  // delete image if success
-  Blog.deleteOne({ _id: req.params.id })
+  Blog.findOneAndDelete({ _id: req.params.id })
     .then((data) => {
-      data && data.deletedCount ? res.status(200).send(data) : res.status(404).send("Invalid blog");
+      deleteImage(data.image.name);
+      res.status(200).send(data);
     })
     .catch((err) => res.status(400).send(err));
 };
 
 const getBlogImage = (req, res) => {
   res.sendFile(`${baseImgUrl}/${req.params.image}`);
+};
+
+const deleteImage = (fileName) => {
+  try {
+    fs.unlinkSync(`${destination}/${fileName}`);
+  } catch (err) {
+    return res.status(400).send(err);
+  }
 };
 
 module.exports = {

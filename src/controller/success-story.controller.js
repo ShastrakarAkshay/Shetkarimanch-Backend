@@ -1,7 +1,7 @@
 const SuccessStory = require("../models/success-story.model");
-const multer = require("../utils/multer.util");
-const destination = "./uploads/stories";
 const path = require("path");
+const fs = require("fs");
+const destination = "./uploads/stories";
 const baseImgUrl = path.join(__dirname + `../../../${destination}`);
 const imgAPI = "/api/success-story/file";
 
@@ -12,14 +12,18 @@ const fetchAllStories = (req, res) => {
 };
 
 const createStory = (req, res) => {
+  const fileName = req.file.filename;
   const story = new SuccessStory({
     ...req.body,
-    image: `${imgAPI}/${req.file.filename}`,
+    image: `${imgAPI}/${fileName}`,
   });
   story
     .save()
     .then((data) => res.status(200).send(data))
-    .catch((err) => res.status(400).send(err));
+    .catch((err) => {
+      deleteImage(fileName);
+      res.status(400).send(err);
+    });
 };
 
 const fetchStoryById = (req, res) => {
@@ -44,15 +48,24 @@ const updateStoryById = (req, res) => {
 };
 
 const deleteStoryById = (req, res) => {
-  SuccessStory.deleteOne({ _id: req.params.id })
+  SuccessStory.findOneAndDelete({ _id: req.params.id })
     .then((data) => {
-      data && data.deletedCount ? res.status(200).send(data) : res.status(404).send("Invalid story");
+      deleteImage(data.image.name);
+      res.status(200).send(data);
     })
     .catch((err) => res.status(400).send(err));
 };
 
 const getStoryImage = (req, res) => {
   res.sendFile(`${baseImgUrl}/${req.params.image}`);
+};
+
+const deleteImage = (fileName) => {
+  try {
+    fs.unlinkSync(`${destination}/${fileName}`);
+  } catch (err) {
+    return res.status(400).send(err);
+  }
 };
 
 module.exports = {
