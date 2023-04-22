@@ -4,7 +4,7 @@ const { COLLECTIONS } = require("../common/collections.const");
 const blogSchema = new mongoose.Schema(
   {
     image: {
-      type: Buffer,
+      type: String,
     },
     title: {
       type: String,

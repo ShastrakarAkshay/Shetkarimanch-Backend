@@ -1,6 +1,9 @@
 const SuccessStory = require("../models/success-story.model");
 const multer = require("../utils/multer.util");
 const destination = "./uploads/stories";
+const path = require("path");
+const baseImgUrl = path.join(__dirname + `../../../${destination}`);
+const imgAPI = "/api/success-story/file";
 
 const fetchAllStories = (req, res) => {
   SuccessStory.find()
@@ -11,7 +14,7 @@ const fetchAllStories = (req, res) => {
 const createStory = (req, res) => {
   const story = new SuccessStory({
     ...req.body,
-    image: multer.readFile(req.file.filename, destination),
+    image: `${imgAPI}/${req.file.filename}`,
   });
   story
     .save()
@@ -48,10 +51,15 @@ const deleteStoryById = (req, res) => {
     .catch((err) => res.status(400).send(err));
 };
 
+const getStoryImage = (req, res) => {
+  res.sendFile(`${baseImgUrl}/${req.params.image}`);
+};
+
 module.exports = {
   fetchAllStories,
   fetchStoryById,
   createStory,
   updateStoryById,
   deleteStoryById,
+  getStoryImage,
 };

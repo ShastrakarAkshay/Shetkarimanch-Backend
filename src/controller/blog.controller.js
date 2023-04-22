@@ -1,12 +1,16 @@
 const Blog = require("../models/blog.model");
 const multer = require("../utils/multer.util");
 const destination = "./uploads/blogs";
+const path = require("path");
+const baseImgUrl = path.join(__dirname + `../../../${destination}`);
+const imgAPI = "/api/blog/file";
 
 const createBlog = (req, res) => {
   const blog = new Blog({
     ...req.body,
-    image: multer.readFile(req.file.filename, destination),
+    image: `${imgAPI}/${req.file.filename}`,
   });
+  // delete image if save fails
   blog
     .save()
     .then((data) => res.status(200).send(data))
@@ -45,11 +49,16 @@ const updateBlogById = (req, res) => {
 };
 
 const deleteBlogById = (req, res) => {
+  // delete image if success
   Blog.deleteOne({ _id: req.params.id })
     .then((data) => {
       data && data.deletedCount ? res.status(200).send(data) : res.status(404).send("Invalid blog");
     })
     .catch((err) => res.status(400).send(err));
+};
+
+const getBlogImage = (req, res) => {
+  res.sendFile(`${baseImgUrl}/${req.params.image}`);
 };
 
 module.exports = {
@@ -58,4 +67,5 @@ module.exports = {
   fetchBlobById,
   updateBlogById,
   deleteBlogById,
+  getBlogImage,
 };
