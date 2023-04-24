@@ -47,11 +47,9 @@ const updateUser = (req, res) => {
 };
 
 const deleteUser = (req, res) => {
-  User.deleteOne({ _id: req.params.id })
+  User.findOneAndDelete({ _id: req.params.id })
     .then((data) => {
-      data && data.deletedCount
-        ? res.status(200).send(data)
-        : res.status(404).send(Response.error(Message.userDoesNotExists));
+      res.status(200).send(data);
     })
     .catch((err) => res.status(400).send(err));
 };

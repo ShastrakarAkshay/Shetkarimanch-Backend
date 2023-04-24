@@ -15,7 +15,10 @@ const createStory = (req, res) => {
   const fileName = req.file.filename;
   const story = new SuccessStory({
     ...req.body,
-    image: `${imgAPI}/${fileName}`,
+    image: {
+      url: `${imgAPI}/${fileName}`,
+      name: fileName,
+    },
   });
   story
     .save()
