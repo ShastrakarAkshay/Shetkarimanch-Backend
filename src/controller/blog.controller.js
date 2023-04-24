@@ -6,14 +6,15 @@ const imgAPI = "/api/blog/file";
 const baseImgUrl = path.join(__dirname + `../../../${destination}`);
 
 const createBlog = (req, res) => {
-  const fileName = req.file.filename;
-  const blog = new Blog({
-    ...req.body,
-    image: {
+  const fileName = req.file?.filename;
+  const data = { ...req.body };
+  if (fileName) {
+    data.image = {
       url: `${imgAPI}/${fileName}`,
       name: fileName,
-    },
-  });
+    };
+  }
+  const blog = new Blog(data);
   blog
     .save()
     .then((data) => res.status(200).send(data))

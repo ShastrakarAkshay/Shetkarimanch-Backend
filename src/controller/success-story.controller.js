@@ -12,14 +12,15 @@ const fetchAllStories = (req, res) => {
 };
 
 const createStory = (req, res) => {
-  const fileName = req.file.filename;
-  const story = new SuccessStory({
-    ...req.body,
-    image: {
+  const fileName = req.file?.filename;
+  const data = { ...req.body };
+  if (fileName) {
+    data.image = {
       url: `${imgAPI}/${fileName}`,
       name: fileName,
-    },
-  });
+    };
+  }
+  const story = new SuccessStory(data);
   story
     .save()
     .then((data) => res.status(200).send(data))

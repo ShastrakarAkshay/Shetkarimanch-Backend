@@ -21,9 +21,7 @@ const readFile = (fileName, destination) => {
 const deleteFile = (destination, fileName) => {
   try {
     fs.unlinkSync(`${destination}/${fileName}`);
-  } catch (err) {
-    return res.status(400).send(err);
-  }
+  } catch (err) {}
 };
 
 module.exports = { single, readFile, deleteFile };
