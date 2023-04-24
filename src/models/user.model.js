@@ -57,7 +57,7 @@ userSchema.methods.generateAuthToken = async function () {
 
 userSchema.methods.generateOtpToken = async function (otp) {
   const token = jwt.sign({ _otp: otp.toString() }, CONFIG.OTP_SECRET_KEY, {
-    expiresIn: 60 * 3, // 3 minutes
+    expiresIn: 60 * 5, // 5 minutes
   });
   this.tokens.otpToken = token;
   await this.save();
@@ -78,7 +78,7 @@ userSchema.statics.generateRegOtpToken = async function (otp, mobile) {
     },
     CONFIG.REGISTER_OTP_SECRET_KEY,
     {
-      expiresIn: 60 * 3, // 3 minutes
+      expiresIn: 60 * 5, // 5 minutes
     },
   );
   return regOtpToken;
