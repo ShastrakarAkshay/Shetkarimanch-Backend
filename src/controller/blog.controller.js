@@ -1,6 +1,7 @@
 const path = require("path");
 const Blog = require("../models/blog.model");
 const multer = require("../utils/multer.util");
+const { CONFIG } = require("../app.config");
 const destination = "./uploads/blogs";
 const imgAPI = "/api/blog/file";
 const baseImgUrl = path.join(__dirname + `../../../${destination}`);
@@ -10,7 +11,7 @@ const createBlog = (req, res) => {
   const data = { ...req.body };
   if (fileName) {
     data.image = {
-      url: `${imgAPI}/${fileName}`,
+      url: `${CONFIG.SERVER_URL}${imgAPI}/${fileName}`,
       name: fileName,
     };
   }
