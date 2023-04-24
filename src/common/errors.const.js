@@ -8,7 +8,7 @@ const Message = {
   otpExpired: "OTP expired",
   otpSentSuccessfully: "OTP sent successfully",
   unableToSendOtp: "Unable to send OTP",
-  loginSuccess: "Login seccessfully",
+  loginSuccess: "Login successful.",
 };
 
 const Response = {
