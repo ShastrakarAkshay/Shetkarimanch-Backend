@@ -1,6 +1,7 @@
 const path = require("path");
 const SuccessStory = require("../models/success-story.model");
 const multer = require("../utils/multer.util");
+const { CONFIG } = require("../app.config");
 const destination = "./uploads/stories";
 const imgAPI = "/api/success-story/file";
 const baseImgUrl = path.join(__dirname + `../../../${destination}`);
@@ -16,7 +17,7 @@ const createStory = (req, res) => {
   const data = { ...req.body };
   if (fileName) {
     data.image = {
-      url: `${imgAPI}/${fileName}`,
+      url: `${CONFIG.SERVER_URL}${imgAPI}/${fileName}`,
       name: fileName,
     };
   }

@@ -1,7 +1,7 @@
 const User = require("../models/user.model");
 const { Message, Response } = require("../common/errors.const");
 const { sendSms } = require("../utils/sms.utils");
-const bcrypt = require("../utils/bcrypt.util");
+const { CONFIG } = require("../app.config");
 const appUtil = require("../utils/app.util");
 
 const validateUserAndSendOTP = async (req, res) => {
@@ -26,7 +26,7 @@ const verifyOtpAndLogin = async (req, res) => {
     const savedOtp = await user.verifyOtpToken();
     if (Number(otp) === Number(savedOtp)) {
       const token = await user.generateAuthToken();
-      res.cookie(process.env.AUTH_SECRET_KEY, token, {
+      res.cookie(CONFIG.AUTH_SECRET_KEY, token, {
         httpOnly: true,
         expires: appUtil.getExpiryTime(60), // 60 minutes
       });

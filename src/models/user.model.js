@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const { COLLECTIONS } = require("../common/collections.const");
+const { CONFIG } = require("../app.config");
 
 const userSchema = new mongoose.Schema(
   {
@@ -46,7 +47,7 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.methods.generateAuthToken = async function () {
-  const token = jwt.sign({ _id: this._id.toString() }, process.env.AUTH_SECRET_KEY, {
+  const token = jwt.sign({ _id: this._id.toString() }, CONFIG.AUTH_SECRET_KEY, {
     expiresIn: 60 * 60, // 1 hour
   });
   this.tokens.authToken = token;
@@ -55,7 +56,7 @@ userSchema.methods.generateAuthToken = async function () {
 };
 
 userSchema.methods.generateOtpToken = async function (otp) {
-  const token = jwt.sign({ _otp: otp.toString() }, process.env.OTP_SECRET_KEY, {
+  const token = jwt.sign({ _otp: otp.toString() }, CONFIG.OTP_SECRET_KEY, {
     expiresIn: 60 * 3, // 3 minutes
   });
   this.tokens.otpToken = token;
@@ -64,7 +65,7 @@ userSchema.methods.generateOtpToken = async function (otp) {
 };
 
 userSchema.methods.verifyOtpToken = async function () {
-  const { _otp } = jwt.verify(this.tokens.otpToken, process.env.OTP_SECRET_KEY);
+  const { _otp } = jwt.verify(this.tokens.otpToken, CONFIG.OTP_SECRET_KEY);
   return _otp;
 };
 
@@ -75,7 +76,7 @@ userSchema.statics.generateRegOtpToken = async function (otp, mobile) {
       _otp: otp.toString(),
       _mobile: mobile.toString(),
     },
-    process.env.REGISTER_OTP_SECRET_KEY,
+    CONFIG.REGISTER_OTP_SECRET_KEY,
     {
       expiresIn: 60 * 3, // 3 minutes
     },

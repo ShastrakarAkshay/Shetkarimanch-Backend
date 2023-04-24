@@ -1,6 +1,7 @@
 const appUtil = require("../utils/app.util");
 const smsUtil = require("../utils/sms.utils");
 const { Response, Message } = require("../common/errors.const");
+const { CONFIG } = require("../app.config");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 
@@ -12,7 +13,7 @@ const validateUserAndSendOtp = async (req, res) => {
   }
   const otp = Math.floor(100000 + Math.random() * 900000);
   const regOtpToken = await User.generateRegOtpToken(otp, req.params.mobile);
-  res.cookie(process.env.REGISTER_OTP_SECRET_KEY, regOtpToken);
+  res.cookie(CONFIG.REGISTER_OTP_SECRET_KEY, regOtpToken);
   const success = await smsUtil.sendSms(otp, req.params.mobile);
   success && success.data
     ? res.status(200).send(Response.success(Message.otpSentSuccessfully))
@@ -27,8 +28,8 @@ const verifyOtpAndRegister = async (req, res) => {
     return;
   }
   const userOtp = req.params.otp;
-  const regOtpToken = req.cookies[process.env.REGISTER_OTP_SECRET_KEY];
-  jwt.verify(regOtpToken, process.env.REGISTER_OTP_SECRET_KEY, async (err, decode) => {
+  const regOtpToken = req.cookies[CONFIG.REGISTER_OTP_SECRET_KEY];
+  jwt.verify(regOtpToken, CONFIG.REGISTER_OTP_SECRET_KEY, async (err, decode) => {
     if (err) {
       res.status(400).send(Response.error(Message.otpExpired));
     }
@@ -39,7 +40,7 @@ const verifyOtpAndRegister = async (req, res) => {
         const userData = await user.save();
         if (userData) {
           const token = await user.generateAuthToken();
-          res.cookie(process.env.AUTH_SECRET_KEY, token, {
+          res.cookie(CONFIG.AUTH_SECRET_KEY, token, {
             httpOnly: true,
             expires: appUtil.getExpiryTime(60), // 60 minutes
           });
