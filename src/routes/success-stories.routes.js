@@ -8,12 +8,11 @@ const {
   getStoryImage,
 } = require("../controller/success-story.controller");
 const multer = require("../utils/multer.util");
-const destination = "./uploads/stories";
 
-router.post("/", multer.single("image", destination), createStory);
+router.post("/", multer.single("image"), createStory);
 router.get("/list", fetchAllStories);
 router.get("/:id", fetchStoryById);
-router.put("/:id", multer.single("image", destination), updateStoryById);
+router.put("/:id", multer.single("image"), updateStoryById);
 router.delete("/:id", deleteStoryById);
 router.get("/file/:image", getStoryImage);
 
