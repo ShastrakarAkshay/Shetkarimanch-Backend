@@ -24,10 +24,4 @@ const deleteFile = (destination, fileName) => {
   } catch (err) {}
 };
 
-const createDir = (dir) => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
-  }
-};
-
-module.exports = { single, readFile, deleteFile, createDir };
+module.exports = { single, readFile, deleteFile };

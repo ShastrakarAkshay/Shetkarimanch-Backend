@@ -2,7 +2,7 @@ const path = require("path");
 const Blog = require("../models/blog.model");
 const multer = require("../utils/multer.util");
 const { CONFIG } = require("../app.config");
-const destination = "./uploads/blogs";
+const destination = "./uploads";
 const imgAPI = "/api/blog/file";
 const baseImgUrl = path.join(__dirname + `../../../${destination}`);
 

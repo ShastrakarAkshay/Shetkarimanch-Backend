@@ -1,12 +1,12 @@
 require("dotenv").config();
 
+const fs = require("fs");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const db = require("./db");
 const routes = require("./app-routes");
-const multer = require("./utils/multer.util");
 
 const PORT = process.env.PORT || 8000;
 const app = express();
@@ -20,7 +20,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api", bodyParser.json(), routes);
 
 app.listen(PORT, () => {
-  //   multer.createDir("./uploads/blogs");
-  //   multer.createDir("./uploads/stories");
+  createDir("./uploads");
   console.log("App is running on port", PORT);
 });
+
+const createDir = (dir) => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
+};
