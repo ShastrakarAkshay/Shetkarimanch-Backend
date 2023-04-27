@@ -33,7 +33,9 @@ const createStory = (req, res) => {
 
 const fetchStoryById = (req, res) => {
   SuccessStory.findOne({ _id: req.params.id })
-    .then((data) => (data ? res.status(200).send(data) : res.status(400).send("Invalid Story")))
+    .then((data) =>
+      data ? res.status(200).send(data) : res.status(400).send("Invalid Story"),
+    )
     .catch((err) => res.status(400).send(err));
 };
 
@@ -44,7 +46,9 @@ const updateStoryById = (req, res) => {
       new: true,
     })
       .then((data) => {
-        data ? res.status(200).send(data) : res.status(404).send("Invalid story");
+        data
+          ? res.status(200).send(data)
+          : res.status(404).send("Invalid story");
       })
       .catch((err) => res.status(400).send(err));
   } else {

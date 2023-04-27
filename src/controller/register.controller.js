@@ -29,30 +29,38 @@ const verifyOtpAndRegister = async (req, res) => {
   }
   const userOtp = req.params.otp;
   const regOtpToken = req.cookies[CONFIG.REGISTER_OTP_SECRET_KEY];
-  jwt.verify(regOtpToken, CONFIG.REGISTER_OTP_SECRET_KEY, async (err, decode) => {
-    if (err) {
-      res.status(400).send(Response.error(Message.otpExpired));
-    }
-    if (decode) {
-      const { _otp, _mobile } = decode;
-      if (Number(userOtp) === Number(_otp)) {
-        const user = new User({ ...body, pinCode: Number(body.pinCode), mobile: Number(_mobile) });
-        const userData = await user.save();
-        if (userData) {
-          const token = await user.generateAuthToken();
-          res.cookie(CONFIG.AUTH_SECRET_KEY, token, {
-            httpOnly: true,
-            expires: appUtil.getExpiryTime(60), // 60 minutes
-          });
-          res.status(200).send(userData);
-        } else {
-          res.status(400).send(Response.error(Message.somethingWentWrong));
-        }
-      } else {
-        res.status(400).send(Response.error(Message.invalidOtp));
+  jwt.verify(
+    regOtpToken,
+    CONFIG.REGISTER_OTP_SECRET_KEY,
+    async (err, decode) => {
+      if (err) {
+        res.status(400).send(Response.error(Message.otpExpired));
       }
-    }
-  });
+      if (decode) {
+        const { _otp, _mobile } = decode;
+        if (Number(userOtp) === Number(_otp)) {
+          const user = new User({
+            ...body,
+            pinCode: Number(body.pinCode),
+            mobile: Number(_mobile),
+          });
+          const userData = await user.save();
+          if (userData) {
+            const token = await user.generateAuthToken();
+            res.cookie(CONFIG.AUTH_SECRET_KEY, token, {
+              httpOnly: true,
+              expires: appUtil.getExpiryTime(60), // 60 minutes
+            });
+            res.status(200).send(userData);
+          } else {
+            res.status(400).send(Response.error(Message.somethingWentWrong));
+          }
+        } else {
+          res.status(400).send(Response.error(Message.invalidOtp));
+        }
+      }
+    },
+  );
 };
 
 module.exports = {

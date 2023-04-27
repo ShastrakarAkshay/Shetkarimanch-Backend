@@ -2,6 +2,7 @@ const Message = {
   userAlreadyExists: "User already exists",
   userDoesNotExists: "User does not exists",
   userCreatedSuccessfully: "User created successfully",
+  userDeletedSuccessfully: "User deleted successfully",
   badRequest: "Bad request",
   somethingWentWrong: "Something went wrong",
   invalidOtp: "Invalid OTP",

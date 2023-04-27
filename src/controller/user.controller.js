@@ -17,7 +17,9 @@ const fetchAllUser = (req, res) => {
 const fetchUserById = (req, res) => {
   User.findById(req.params.id)
     .then((data) => {
-      data ? res.status(200).send(data) : res.status(404).send(Response.error(Message.userDoesNotExists));
+      data
+        ? res.status(200).send(data)
+        : res.status(404).send(Response.error(Message.userDoesNotExists));
     })
     .catch((err) => res.status(400).send(err));
 };
@@ -38,7 +40,9 @@ const updateUser = (req, res) => {
   if (hasData) {
     User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
       .then((data) => {
-        data ? res.status(200).send(data) : res.status(404).send(Response.error(Message.somethingWentWrong));
+        data
+          ? res.status(200).send(data)
+          : res.status(404).send(Response.error(Message.somethingWentWrong));
       })
       .catch((err) => res.status(400).send(err));
   } else {
@@ -49,9 +53,11 @@ const updateUser = (req, res) => {
 const deleteUser = (req, res) => {
   User.findOneAndDelete({ _id: req.params.id })
     .then((data) => {
-      res.status(200).send(data._id);
+      res.status(200).send(Response.success(Message.userDeletedSuccessfully));
     })
-    .catch((err) => res.status(400).send(err));
+    .catch((err) =>
+      res.status(400).send(Response.error(Message.somethingWentWrong)),
+    );
 };
 
 module.exports = {

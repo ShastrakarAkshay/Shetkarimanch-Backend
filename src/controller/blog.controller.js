@@ -48,7 +48,9 @@ const updateBlogById = (req, res) => {
   if (hasData) {
     Blog.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
       .then((data) => {
-        data ? res.status(200).send(data) : res.status(404).send("Invalid blog");
+        data
+          ? res.status(200).send(data)
+          : res.status(404).send("Invalid blog");
       })
       .catch((err) => res.status(400).send(err));
   } else {

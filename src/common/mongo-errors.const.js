@@ -398,15 +398,18 @@ const ERROR_CODES = {
   10107: "NotWritablePrimary:categories: [NotPrimaryError:RetriableError]",
   10334: "BSONObjectTooLarge",
   11000: "DuplicateKey:extra: DuplicateKeyErrorInfo",
-  11600: "InterruptedAtShutdown:categories: [Interruption:ShutdownError:CancellationError:RetriableError]",
+  11600:
+    "InterruptedAtShutdown:categories: [Interruption:ShutdownError:CancellationError:RetriableError]",
   11601: "Interrupted:categories: [Interruption]",
-  11602: "InterruptedDueToReplStateChange:categories: [Interruption:NotPrimaryError:RetriableError]",
+  11602:
+    "InterruptedDueToReplStateChange:categories: [Interruption:NotPrimaryError:RetriableError]",
   12586: "BackgroundOperationInProgressForDatabase",
   12587: "BackgroundOperationInProgressForNamespace",
   13104: "OBSOLETE_PrepareConfigsFailed",
   13113: "MergeStageNoMatchingDocument",
   13297: "DatabaseDifferCase",
-  13388: "StaleConfig: extra: StaleConfigInfo: categories: [StaleShardVersionError:NeedRetargettingError]",
+  13388:
+    "StaleConfig: extra: StaleConfigInfo: categories: [StaleShardVersionError:NeedRetargettingError]",
   13435: "NotPrimaryNoSecondaryOk:categories: [NotPrimaryError:RetriableError]",
   13436: "NotPrimaryOrSecondary:categories: [NotPrimaryError:RetriableError]",
   14031: "OutOfDiskSpace",

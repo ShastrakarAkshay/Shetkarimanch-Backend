@@ -53,4 +53,8 @@ const successStorySchema = new mongoose.Schema(
   },
 );
 
-module.exports = mongoose.model("success-story", successStorySchema, COLLECTIONS.SuccessStories);
+module.exports = mongoose.model(
+  "success-story",
+  successStorySchema,
+  COLLECTIONS.SuccessStories,
+);
