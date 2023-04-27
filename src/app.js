@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const db = require("./db");
 const routes = require("./app-routes");
+const multer = require("./utils/multer.util");
 
 const PORT = process.env.PORT || 8000;
 const app = express();
@@ -18,4 +19,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api", bodyParser.json(), routes);
 
-app.listen(PORT, () => console.log("App is running on port", PORT));
+app.listen(PORT, () => {
+  //   multer.createDir("./uploads/blogs");
+  //   multer.createDir("./uploads/stories");
+  console.log("App is running on port", PORT);
+});
