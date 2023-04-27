@@ -40,28 +40,21 @@ const fetchStoryById = (req, res) => {
 };
 
 const updateStoryById = (req, res) => {
-  const hasData = Object.keys(req.body).length > 0;
-  if (hasData) {
-    const fileName = req.file?.filename;
-    const data = { ...req.body };
-    if (fileName) {
-      data.image = {
-        url: `${CONFIG.SERVER_URL}${imgAPI}/${fileName}`,
-        name: fileName,
-      };
-    }
-    SuccessStory.findOneAndUpdate({ _id: req.params.id }, data, {
-      new: true,
-    })
-      .then((data) => {
-        data
-          ? res.status(200).send(data)
-          : res.status(404).send("Invalid story");
-      })
-      .catch((err) => res.status(400).send(err));
-  } else {
-    res.status(400).send("Bad request");
+  const fileName = req.file?.filename;
+  const data = { ...req.body };
+  if (fileName) {
+    data.image = {
+      url: `${CONFIG.SERVER_URL}${imgAPI}/${fileName}`,
+      name: fileName,
+    };
   }
+  SuccessStory.findOneAndUpdate({ _id: req.params.id }, data, {
+    new: true,
+  })
+    .then((data) => {
+      data ? res.status(200).send(data) : res.status(404).send("Invalid story");
+    })
+    .catch((err) => res.status(400).send(err));
 };
 
 const deleteStoryById = (req, res) => {
