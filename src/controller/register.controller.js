@@ -36,7 +36,7 @@ const verifyOtpAndRegister = async (req, res) => {
     if (decode) {
       const { _otp, _mobile } = decode;
       if (Number(userOtp) === Number(_otp)) {
-        const user = new User({ ...body, mobile: _mobile });
+        const user = new User({ ...body, pinCode: Number(body.pinCode), mobile: Number(_mobile) });
         const userData = await user.save();
         if (userData) {
           const token = await user.generateAuthToken();

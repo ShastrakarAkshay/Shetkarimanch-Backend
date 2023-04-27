@@ -49,7 +49,7 @@ const updateUser = (req, res) => {
 const deleteUser = (req, res) => {
   User.findOneAndDelete({ _id: req.params.id })
     .then((data) => {
-      res.status(200).send(data);
+      res.status(200).send(data._id);
     })
     .catch((err) => res.status(400).send(err));
 };

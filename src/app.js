@@ -9,12 +9,13 @@ const routes = require("./app-routes");
 
 const PORT = process.env.PORT || 8000;
 const app = express();
-const jsonParser = bodyParser.json();
 
 db.connect();
 app.use(cors());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }));
-app.use("/api", jsonParser, routes);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/api", bodyParser.json(), routes);
 
 app.listen(PORT, () => console.log("App is running on port", PORT));
