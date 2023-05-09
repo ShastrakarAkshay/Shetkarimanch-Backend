@@ -7,7 +7,23 @@ const imgAPI = "/api/success-story/file";
 const baseImgUrl = path.join(__dirname + `../../../${destination}`);
 
 const fetchAllStories = (req, res) => {
-  SuccessStory.find()
+  const filters = {};
+  if (req.body.filters) {
+    const _filters = req.body.filters;
+    if (_filters.fromDate && _filters.toDate) {
+      filters.createdAt = {
+        $gte: new Date(_filters.fromDate),
+        $lte: new Date(_filters.toDate),
+      };
+    }
+    if (_filters.taluka) {
+      filters["farmerDetails.taluka"] = {
+        $eq: _filters.taluka,
+      };
+    }
+  }
+
+  SuccessStory.find(filters)
     .then((data) => res.status(200).send(data))
     .catch((err) => res.status(400).send(err));
 };
