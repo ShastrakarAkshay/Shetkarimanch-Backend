@@ -8,19 +8,16 @@ const baseImgUrl = path.join(__dirname + `../../../${destination}`);
 
 const fetchAllStories = (req, res) => {
   const filters = {};
-  if (req.body.filters) {
-    const _filters = req.body.filters;
-    if (_filters.fromDate && _filters.toDate) {
-      filters.createdAt = {
-        $gte: new Date(_filters.fromDate),
-        $lte: new Date(_filters.toDate),
-      };
-    }
-    if (_filters.taluka) {
-      filters["farmerDetails.taluka"] = {
-        $eq: _filters.taluka,
-      };
-    }
+  if (req.query.fromDate && req.query.toDate) {
+    filters.createdAt = {
+      $gte: new Date(req.query.fromDate),
+      $lte: new Date(req.query.toDate),
+    };
+  }
+  if (req.query.taluka) {
+    filters["farmerDetails.taluka"] = {
+      $eq: req.query.taluka,
+    };
   }
 
   SuccessStory.find(filters)

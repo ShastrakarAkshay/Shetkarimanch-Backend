@@ -27,19 +27,16 @@ const createBlog = (req, res) => {
 
 const fetchAllBlogs = (req, res) => {
   const filters = {};
-  if (req.body.filters) {
-    const _filters = req.body.filters;
-    if (_filters.fromDate && _filters.toDate) {
-      filters.createdAt = {
-        $gte: new Date(_filters.fromDate),
-        $lte: new Date(_filters.toDate),
-      };
-    }
-    if (_filters.category) {
-      filters.category = {
-        $eq: _filters.category,
-      };
-    }
+  if (req.query.fromDate && req.query.toDate) {
+    filters.createdAt = {
+      $gte: new Date(req.query.fromDate),
+      $lte: new Date(req.query.toDate),
+    };
+  }
+  if (req.query.category) {
+    filters.category = {
+      $eq: req.query.category,
+    };
   }
   Blog.find(filters)
     .then((data) => res.status(200).send(data))
