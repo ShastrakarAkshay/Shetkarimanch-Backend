@@ -40,7 +40,7 @@ const createStory = (req, res) => {
   const data = { ...req.body };
   if (fileName) {
     data.image = {
-      url: `${CONFIG.SERVER_URL}${imgAPI}/${fileName}`,
+      url: "",
       name: fileName,
       data: multer.readFile(fileName),
       contentType: req.file.mimetype,
