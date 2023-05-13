@@ -58,9 +58,14 @@ const createStory = (req, res) => {
 
 const fetchStoryById = (req, res) => {
   SuccessStory.findOne({ _id: req.params.id })
-    .then((data) =>
-      data ? res.status(200).send(data) : res.status(400).send("Invalid Story"),
-    )
+    .then((data) => {
+      if (data.image.data) {
+        data.image.url =
+          `data:${data.image.contentType};base64,` +
+          data.image.data.toString("base64");
+      }
+      data ? res.status(200).send(data) : res.status(400).send("Invalid Story");
+    })
     .catch((err) => res.status(400).send(err));
 };
 
@@ -69,8 +74,10 @@ const updateStoryById = (req, res) => {
   const data = { ...req.body };
   if (fileName) {
     data.image = {
-      url: `${CONFIG.SERVER_URL}${imgAPI}/${fileName}`,
+      url: "",
       name: fileName,
+      data: multer.readFile(fileName),
+      contentType: req.file.mimetype,
     };
   }
   SuccessStory.findOneAndUpdate({ _id: req.params.id }, data, {

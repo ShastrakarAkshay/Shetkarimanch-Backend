@@ -59,6 +59,11 @@ const fetchBlobById = (req, res) => {
   Blog.findOne({ _id: req.params.id })
     .then((data) => {
       if (data) {
+        if (data.image.data) {
+          data.image.url =
+            `data:${data.image.contentType};base64,` +
+            data.image.data.toString("base64");
+        }
         res.status(200).send(data);
       } else {
         res.status(400).send("Invalid blog");
@@ -72,8 +77,10 @@ const updateBlogById = (req, res) => {
   const data = { ...req.body };
   if (fileName) {
     data.image = {
-      url: `${CONFIG.SERVER_URL}${imgAPI}/${fileName}`,
+      url: "",
       name: fileName,
+      data: multer.readFile(fileName),
+      contentType: req.file.mimetype,
     };
   }
   Blog.findOneAndUpdate({ _id: req.params.id }, data, { new: true })
