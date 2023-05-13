@@ -21,7 +21,17 @@ const fetchAllStories = (req, res) => {
   }
 
   SuccessStory.find(filters)
-    .then((data) => res.status(200).send(data))
+    .then((data) => {
+      const result = data.map((item) => {
+        if (item.image.data) {
+          item.image.url =
+            `data:${item.image.contentType};base64,` +
+            item.image.data.toString("base64");
+        }
+        return item;
+      });
+      res.status(200).send(result);
+    })
     .catch((err) => res.status(400).send(err));
 };
 
@@ -32,6 +42,8 @@ const createStory = (req, res) => {
     data.image = {
       url: `${CONFIG.SERVER_URL}${imgAPI}/${fileName}`,
       name: fileName,
+      data: multer.readFile(fileName),
+      contentType: req.file.mimetype,
     };
   }
   const story = new SuccessStory(data);

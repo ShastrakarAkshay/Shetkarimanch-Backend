@@ -15,8 +15,8 @@ const single = (name) => {
   return multer({ storage }).single(name);
 };
 
-const readFile = (fileName, destination) => {
-  return fs.readFileSync(path.join(destination + "/" + fileName));
+const readFile = (fileName) => {
+  return fs.readFileSync(path.join("uploads/" + fileName));
 };
 
 const deleteFile = (destination, fileName) => {
