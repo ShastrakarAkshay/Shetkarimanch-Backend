@@ -5,7 +5,6 @@ const {
   createStory,
   updateStoryById,
   deleteStoryById,
-  getStoryImage,
 } = require("../controller/success-story.controller");
 const multer = require("../utils/multer.util");
 
@@ -14,6 +13,5 @@ router.get("/list", fetchAllStories);
 router.get("/:id", fetchStoryById);
 router.put("/:id", multer.single("image"), updateStoryById);
 router.delete("/:id", deleteStoryById);
-router.get("/file/:image", getStoryImage);
 
 module.exports = router;

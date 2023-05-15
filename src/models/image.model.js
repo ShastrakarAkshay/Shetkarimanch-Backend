@@ -2,8 +2,10 @@ const mongoose = require("mongoose");
 const { COLLECTIONS } = require("../common/collections.const");
 const imageSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    data: Buffer,
+    data: {
+      type: Buffer,
+      required: true,
+    },
     contentType: { type: String },
   },
   {

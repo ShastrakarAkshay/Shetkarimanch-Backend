@@ -1,10 +1,6 @@
-const path = require("path");
 const SuccessStory = require("../models/success-story.model");
 const multer = require("../utils/multer.util");
-const { CONFIG } = require("../app.config");
-const destination = "./uploads";
-const imgAPI = "/api/success-story/file";
-const baseImgUrl = path.join(__dirname + `../../../${destination}`);
+const imageController = require("./image.controller");
 
 const fetchAllStories = (req, res) => {
   const filters = {};
@@ -22,36 +18,22 @@ const fetchAllStories = (req, res) => {
 
   SuccessStory.find(filters)
     .then((data) => {
-      const result = data.map((item) => {
-        if (item.image.data) {
-          item.image.url =
-            `data:${item.image.contentType};base64,` +
-            item.image.data.toString("base64");
-        }
-        return item;
-      });
-      res.status(200).send(result);
+      res.status(200).send(data);
     })
     .catch((err) => res.status(400).send(err));
 };
 
-const createStory = (req, res) => {
-  const fileName = req.file?.filename;
+const createStory = async (req, res) => {
   const data = { ...req.body };
-  if (fileName) {
-    data.image = {
-      url: "",
-      name: fileName,
-      data: multer.readFile(fileName),
-      contentType: req.file.mimetype,
-    };
+  if (req.file) {
+    data.image = await imageController.saveAndGetImgPayload(req.file);
   }
   const story = new SuccessStory(data);
   story
     .save()
     .then((data) => res.status(200).send(data))
     .catch((err) => {
-      multer.deleteFile(destination, fileName);
+      multer.deleteFile(destination, req.file?.filename);
       res.status(400).send(err);
     });
 };
@@ -59,26 +41,15 @@ const createStory = (req, res) => {
 const fetchStoryById = (req, res) => {
   SuccessStory.findOne({ _id: req.params.id })
     .then((data) => {
-      if (data.image.data) {
-        data.image.url =
-          `data:${data.image.contentType};base64,` +
-          data.image.data.toString("base64");
-      }
       data ? res.status(200).send(data) : res.status(400).send("Invalid Story");
     })
     .catch((err) => res.status(400).send(err));
 };
 
-const updateStoryById = (req, res) => {
-  const fileName = req.file?.filename;
+const updateStoryById = async (req, res) => {
   const data = { ...req.body };
-  if (fileName) {
-    data.image = {
-      url: "",
-      name: fileName,
-      data: multer.readFile(fileName),
-      contentType: req.file.mimetype,
-    };
+  if (req.file) {
+    data.image = await imageController.saveAndGetImgPayload(req.file);
   }
   SuccessStory.findOneAndUpdate({ _id: req.params.id }, data, {
     new: true,
@@ -90,16 +61,12 @@ const updateStoryById = (req, res) => {
 };
 
 const deleteStoryById = (req, res) => {
-  SuccessStory.findOneAndDelete({ _id: req.params.id })
+  SuccessStory.findByIdAndDelete(req.params.id)
     .then((data) => {
       multer.deleteFile(destination, data.image.name);
       res.status(200).send(data);
     })
     .catch((err) => res.status(400).send(err));
-};
-
-const getStoryImage = (req, res) => {
-  res.sendFile(`${baseImgUrl}/${req.params.image}`);
 };
 
 module.exports = {
@@ -108,5 +75,4 @@ module.exports = {
   createStory,
   updateStoryById,
   deleteStoryById,
-  getStoryImage,
 };

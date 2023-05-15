@@ -25,10 +25,9 @@ const corpSchema = new mongoose.Schema({
 const successStorySchema = new mongoose.Schema(
   {
     image: {
-      url: String,
+      id: String,
       name: String,
-      data: Buffer,
-      contentType: String,
+      api: String,
     },
     title: {
       type: String,
