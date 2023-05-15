@@ -11,7 +11,7 @@ const uploadImage = async (file) => {
 };
 
 const getImage = (req, res) => {
-  Uploads.find({ name: req.params.name }).then((img) => {
+  Image.find({ name: req.params.name }).then((img) => {
     const imgURL =
       `data:${img.contentType};base64,` + img.data.toString("base64");
     res.status(200).send(imgURL);
