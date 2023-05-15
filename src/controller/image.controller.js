@@ -13,7 +13,7 @@ const getImage = (req, res) => {
   Image.findById(req.params.id).then((img) => {
     const imgURL =
       `data:${img.contentType};base64,` + img.data.toString("base64");
-    res.status(200).send(imgURL);
+    res.status(200).send(JSON.stringify(imgURL));
   });
 };
 
