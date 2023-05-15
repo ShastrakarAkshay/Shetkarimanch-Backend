@@ -6,6 +6,7 @@ const blogsRoutes = require("./routes/blogs.routes");
 const successStoryRoutes = require("./routes/success-stories.routes");
 const registerRoutes = require("./routes/register.routes");
 const loginRoutes = require("./routes/login.routes");
+const imageRoutes = require("./routes/image.routes");
 
 // default
 router.get("/", (req, res) => res.send("Hey, Your API works !!"));
@@ -30,5 +31,8 @@ router.use("/blog", blogsRoutes);
 
 // Success Stories
 router.use("/success-story", successStoryRoutes);
+
+// Images
+router.use("/image", imageRoutes);
 
 module.exports = router;

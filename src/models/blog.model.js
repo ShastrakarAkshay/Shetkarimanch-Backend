@@ -9,6 +9,7 @@ const blogSchema = new mongoose.Schema(
       data: Buffer,
       contentType: String,
     },
+    imageURL: String,
     title: {
       type: String,
       required: true,

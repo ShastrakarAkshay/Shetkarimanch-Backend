@@ -1,21 +1,24 @@
 const path = require("path");
 const Blog = require("../models/blog.model");
 const multer = require("../utils/multer.util");
+const imageController = require("./image.controller");
 const { CONFIG } = require("../app.config");
 const destination = "./uploads";
 const imgAPI = "/api/blog/file";
 const baseImgUrl = path.join(__dirname + `../../../${destination}`);
 
-const createBlog = (req, res) => {
+const createBlog = async (req, res) => {
   const fileName = req.file?.filename;
   const data = { ...req.body };
   if (fileName) {
+    await imageController.uploadImage(req.file);
     data.image = {
       url: "",
       name: fileName,
       data: multer.readFile(fileName),
       contentType: req.file.mimetype,
     };
+    data.imageURL = `/api/image/${fileName}`;
   }
   const blog = new Blog(data);
   blog
