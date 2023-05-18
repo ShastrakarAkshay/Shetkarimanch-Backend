@@ -20,7 +20,7 @@ const validateUserAndSendOTP = async (req, res) => {
 };
 
 const verifyOtpAndLogin = async (req, res) => {
-  const { mobile, otp } = req.body;
+  const { mobile, otp } = req.query;
   const user = await User.findOne({ mobile: Number(mobile) });
   if (user) {
     const savedOtp = await user.verifyOtpToken();

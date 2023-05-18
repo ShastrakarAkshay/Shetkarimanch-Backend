@@ -1,13 +1,7 @@
-const username = "AkshayShastrakar";
-const password = "FDZu1v4JPa2FCbyq";
-const database = "ShetkiManch";
-const URL = `mongodb+srv://${username}:${password}@shetkimanch.wq66pzi.mongodb.net/${database}?retryWrites=true&w=majority`;
+const URL = `mongodb+srv://Admin:12345@cluster0.px2zl8y.mongodb.net/ShetkiManch?retryWrites=true&w=majority`;
 
 const CONFIG = {
   PORT: process.env.PORT || 8000,
-  DB_USERNAME: process.env.DB_USERNAME || username,
-  DB_PASSWORD: process.env.DB_PASSWORD || password,
-  DB_NAME: process.env.DB_NAME || database,
   MONGO_URL: process.env.MONGO_URL || URL,
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
   REGISTER_OTP_SECRET_KEY:

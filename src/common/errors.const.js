@@ -13,8 +13,8 @@ const Message = {
 };
 
 const Response = {
-  error: (message) => ({ type: "Error", message }),
-  success: (message) => ({ type: "Success", message }),
+  error: (message) => ({ type: "error", message }),
+  success: (message) => ({ type: "success", message }),
 };
 
 module.exports = { Message, Response };
