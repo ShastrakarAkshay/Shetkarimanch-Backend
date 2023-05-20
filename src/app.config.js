@@ -11,6 +11,7 @@ const CONFIG = {
   SERVER_URL:
     process.env.SERVER_URL ||
     "http://shetkimanch-env.eba-5kwfspmw.us-east-2.elasticbeanstalk.com",
+  UI_ORIGIN: process.env.UI_ORIGIN || "http://localhost:4200",
 };
 
 module.exports = { CONFIG };

@@ -31,6 +31,7 @@ const fetchAllBlogs = (req, res) => {
     };
   }
   Blog.find(filters)
+    .limit(req.query?.limit || 0)
     .then((data) => {
       res.status(200).send(data);
     })

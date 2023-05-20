@@ -7,12 +7,19 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const db = require("./db");
 const routes = require("./app-routes");
+const { CONFIG } = require("./app.config");
 
 const PORT = process.env.PORT || 8000;
 const app = express();
 
 db.connect();
-app.use(cors());
+app.use(
+  cors({
+    origin: CONFIG.UI_ORIGIN,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  }),
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
