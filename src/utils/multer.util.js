@@ -19,9 +19,9 @@ const readFile = (fileName) => {
   return fs.readFileSync(path.join("uploads/" + fileName));
 };
 
-const deleteFile = (destination, fileName) => {
+const deleteFile = (fileName) => {
   try {
-    fs.unlinkSync(`${destination}/${fileName}`);
+    fs.unlinkSync(`uploads/${fileName}`);
   } catch (err) {}
 };
 

@@ -12,7 +12,7 @@ const createBlog = async (req, res) => {
     .save()
     .then((data) => res.status(200).send(data))
     .catch((err) => {
-      multer.deleteFile(destination, req.file.filename);
+      multer.deleteFile(req.file?.filename);
       res.status(400).send(err);
     });
 };
@@ -65,7 +65,7 @@ const updateBlogById = async (req, res) => {
 const deleteBlogById = (req, res) => {
   Blog.findByIdAndDelete(req.params.id)
     .then((data) => {
-      multer.deleteFile(destination, data.image.name);
+      multer.deleteFile(data.image?.name);
       res.status(200).send(data);
     })
     .catch((err) => res.status(400).send(err));
