@@ -29,6 +29,7 @@ const verifyOtpAndLogin = async (req, res) => {
       res.cookie(CONFIG.AUTH_SECRET_KEY, token, {
         httpOnly: true,
         sameSite: "none",
+        secure: true,
         expires: appUtil.getExpiryTime(60), // 60 minutes
       });
       res.status(200).send(Response.success(Message.loginSuccess));
