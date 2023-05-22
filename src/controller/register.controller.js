@@ -13,7 +13,7 @@ const validateUserAndSendOtp = async (req, res) => {
   }
   const otp = Math.floor(100000 + Math.random() * 900000);
   const regOtpToken = await User.generateRegOtpToken(otp, req.params.mobile);
-  res.cookie(CONFIG.REGISTER_OTP_SECRET_KEY, regOtpToken);
+  res.cookie(CONFIG.REGISTER_OTP_SECRET_KEY, regOtpToken, { sameSite: "none" });
   const success = await smsUtil.sendSms(otp, req.params.mobile);
   success && success.data
     ? res.status(200).send(Response.success(Message.otpSentSuccessfully))
