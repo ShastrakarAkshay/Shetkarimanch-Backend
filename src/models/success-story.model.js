@@ -15,6 +15,7 @@ const farmerSchema = new mongoose.Schema({
   taluka: String,
   district: String,
   pinCode: Number,
+  mobile: Number,
 });
 
 const corpSchema = new mongoose.Schema({
