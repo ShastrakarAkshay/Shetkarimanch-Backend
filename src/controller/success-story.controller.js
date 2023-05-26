@@ -51,6 +51,8 @@ const updateStoryById = async (req, res) => {
   const data = { ...req.body };
   if (req.file) {
     data.image = await imageController.saveAndGetImgPayload(req.file);
+  } else {
+    delete data.image;
   }
   SuccessStory.findOneAndUpdate({ _id: req.params.id }, data, {
     new: true,
