@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const db = require("./db");
-const routes = require("./app-routes");
+const routes = require("./app.routes");
 const { CONFIG } = require("./app.config");
 
 const PORT = process.env.PORT || 8000;
