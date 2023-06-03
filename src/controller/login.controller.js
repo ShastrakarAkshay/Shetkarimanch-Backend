@@ -32,7 +32,7 @@ const verifyOtpAndLogin = async (req, res) => {
         Secure: true,
         expires: appUtil.getExpiryTime(60), // 60 minutes
       });
-      res.status(200).send(Response.success(Message.loginSuccess));
+      res.status(200).send(user);
     } else {
       res.status(400).send(Response.error(Message.invalidOtp));
     }

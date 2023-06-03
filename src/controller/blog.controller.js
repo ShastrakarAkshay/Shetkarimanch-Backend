@@ -30,6 +30,11 @@ const fetchAllBlogs = (req, res) => {
       $eq: req.query.category,
     };
   }
+  if (req.query.createdBy) {
+    filters.createdBy = {
+      $eq: req.query.createdBy,
+    };
+  }
   Blog.find(filters)
     .limit(req.query?.limit || 0)
     .then((data) => {

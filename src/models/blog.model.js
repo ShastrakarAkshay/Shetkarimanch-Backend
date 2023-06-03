@@ -28,6 +28,7 @@ const blogSchema = new mongoose.Schema(
       },
       required: true,
     },
+    createdBy: String,
   },
   {
     // bufferTimeoutMS // needs to learn
