@@ -4,6 +4,7 @@ const COLLECTIONS = {
   Users: "users",
   SuccessStories: "success-stories",
   images: "images",
+  Grieviences: "grieviences",
 };
 
 module.exports = { COLLECTIONS };

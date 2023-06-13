@@ -7,6 +7,7 @@ const successStoryRoutes = require("./routes/success-stories.routes");
 const registerRoutes = require("./routes/register.routes");
 const loginRoutes = require("./routes/login.routes");
 const imageRoutes = require("./routes/image.routes");
+const grievienceRoutes = require("./routes/grievience.routes");
 
 // default
 router.get("/", (req, res) => res.send("Hey, Your API works !!"));
@@ -34,5 +35,8 @@ router.use("/success-story", successStoryRoutes);
 
 // Images
 router.use("/image", imageRoutes);
+
+// Grievience
+router.use("/grievience", grievienceRoutes);
 
 module.exports = router;
