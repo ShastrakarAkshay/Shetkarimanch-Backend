@@ -8,6 +8,22 @@ const validateUserExistence = (req, res) => {
     .catch(() => res.status(404).send(false));
 };
 
+const validateUserSession = async (req, res) => {
+  const userID = req.params.userID;
+  try {
+    const user = await User.findById(userID);
+    if (user) {
+      const token = await user.verifyAuthToken();
+      res.status(200).send(token ? user : false);
+    } else {
+      res.status(200).send(false);
+    }
+  } catch (err) {
+    res.status(200).send(false);
+  }
+};
+
 module.exports = {
   validateUserExistence,
+  validateUserSession,
 };

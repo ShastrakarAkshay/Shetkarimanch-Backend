@@ -15,6 +15,11 @@ const fetchAllStories = (req, res) => {
       $eq: req.query.taluka,
     };
   }
+  if (req.query.createdBy) {
+    filters.createdBy = {
+      $eq: req.query.createdBy,
+    };
+  }
 
   SuccessStory.find(filters)
     .limit(req.query?.limit || 0)

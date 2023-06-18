@@ -69,6 +69,10 @@ userSchema.methods.verifyOtpToken = async function () {
   return _otp;
 };
 
+userSchema.methods.verifyAuthToken = async function () {
+  return jwt.verify(this.tokens.authToken, CONFIG.AUTH_SECRET_KEY);
+};
+
 // for registration
 userSchema.statics.generateRegOtpToken = async function (otp, mobile) {
   const regOtpToken = jwt.sign(

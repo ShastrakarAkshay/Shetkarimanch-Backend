@@ -1,34 +1,35 @@
 const mongoose = require("mongoose");
 const { COLLECTIONS } = require("../common/collections.const");
 
-const blogSchema = new mongoose.Schema(
+const grievienceSchema = new mongoose.Schema(
   {
-    image: {
+    department: {
+      type: String,
+      required: true,
+    },
+    subject: {
+      type: String,
+      required: true,
+    },
+    other: {
+      type: String,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: Number,
+    },
+    userId: {
+      type: String,
+    },
+    feedbacks: [],
+    document: {
       id: String,
       name: String,
       api: String,
     },
-    title: {
-      type: String,
-      required: true,
-    },
-    category: {
-      type: String,
-      required: true,
-    },
-    content: {
-      type: String,
-      required: true,
-    },
-    state: {
-      type: Number,
-      enum: {
-        values: [1, 2],
-        message: "{VALUE} is not supported",
-      },
-      required: true,
-    },
-    createdBy: String,
   },
   {
     // bufferTimeoutMS // needs to learn
@@ -39,4 +40,8 @@ const blogSchema = new mongoose.Schema(
   },
 );
 
-module.exports = mongoose.model("blogs", blogSchema, COLLECTIONS.Blogs);
+module.exports = mongoose.model(
+  "grieviences",
+  grievienceSchema,
+  COLLECTIONS.Grieviences,
+);
