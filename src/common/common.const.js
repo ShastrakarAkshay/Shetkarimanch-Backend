@@ -11,7 +11,7 @@ const GRIEVIENCE_STATUS = {
 
 const ROLES = {
   SuperAdmin: 1,
-  User: 2,
+  Farmer: 2,
   Department: 3,
   Officer: 4,
 };

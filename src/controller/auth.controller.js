@@ -14,7 +14,7 @@ const validateUserSession = async (req, res) => {
     const user = await User.findById(userID);
     if (user) {
       const token = await user.verifyAuthToken();
-      res.status(200).send(token ? true : false);
+      res.status(200).send(token ? user : false);
     } else {
       res.status(200).send(false);
     }
