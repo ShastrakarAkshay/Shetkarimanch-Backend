@@ -27,9 +27,9 @@ const userSchema = new mongoose.Schema(
     pinCode: Number,
     roleId: {
       type: Number || String,
-      default: 1,
+      default: 2,
       enum: {
-        values: [1, 2],
+        values: [1, 2, 3, 4],
         message: "{VALUE} is not supported",
       },
     },
