@@ -1,8 +1,9 @@
-const URL = `mongodb+srv://Admin:12345@cluster0.px2zl8y.mongodb.net/ShetkiManch?retryWrites=true&w=majority`;
+const ProdDB = `mongodb+srv://Admin:admin@shetkimanch.kybs2ys.mongodb.net/ShetkiManch?retryWrites=true&w=majority`;
+const TestDB = `mongodb+srv://Admin:admin@cluster0.rojvjcd.mongodb.net/Test?retryWrites=true&w=majority`;
 
 const CONFIG = {
   PORT: process.env.PORT || 8000,
-  MONGO_URL: process.env.MONGO_URL || URL,
+  MONGO_URL: process.env.MONGO_URL || TestDB,
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
   REGISTER_OTP_SECRET_KEY:
     process.env.REGISTER_OTP_SECRET_KEY || "sm-reg-otp-secret-key",
