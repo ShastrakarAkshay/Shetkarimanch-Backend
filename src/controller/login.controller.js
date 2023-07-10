@@ -8,6 +8,10 @@ const validateUserAndSendOTP = async (req, res) => {
   const mobile = req.params.mobile;
   const user = await User.findOne({ mobile: Number(mobile) });
   if (user) {
+    if (!user.isApproved && !user.isFarmer) {
+      res.status(400).send(Response.error(Message.notApproved));
+      return;
+    }
     const otp = Math.floor(100000 + Math.random() * 900000);
     await user.generateOtpToken(otp);
     const success = await sendSms(otp, mobile);
