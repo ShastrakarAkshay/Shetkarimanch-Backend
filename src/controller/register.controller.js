@@ -20,7 +20,10 @@ const validateUserAndSendOtp = async (req, res) => {
   });
   const success = await smsUtil.sendSms(otp, req.params.mobile);
   success && success.data
-    ? res.status(200).send(Response.success(Message.otpSentSuccessfully))
+    ? res.status(200).send({
+        ...Response.success(Message.otpSentSuccessfully),
+        token: regOtpToken,
+      })
     : res.status(400).send(Response.error(Message.unableToSendOtp));
 };
 
@@ -32,7 +35,8 @@ const verifyOtpAndRegister = async (req, res) => {
     return;
   }
   const userOtp = req.params.otp;
-  const regOtpToken = req.cookies[CONFIG.REGISTER_OTP_SECRET_KEY];
+  // const regOtpToken = req.cookies[CONFIG.REGISTER_OTP_SECRET_KEY];
+  const regOtpToken = req.body.token;
   jwt.verify(
     regOtpToken,
     CONFIG.REGISTER_OTP_SECRET_KEY,

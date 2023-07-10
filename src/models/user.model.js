@@ -37,6 +37,10 @@ const userSchema = new mongoose.Schema(
       authToken: String,
       otpToken: String,
     },
+    departmentId: String,
+    designationId: String,
+    isApproved: Boolean,
+    isFarmer: Boolean,
   },
   {
     timestamps: {
