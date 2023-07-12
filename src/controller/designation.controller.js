@@ -34,9 +34,8 @@ const fetchDesignationByDept = (req, res) => {
 };
 
 const createDesignation = (req, res) => {
-  const designation = new Designation(req.body);
-  designation
-    .save()
+  const { designationList } = req.body;
+  Designation.insertMany(designationList)
     .then((data) => {
       res.status(201).send(data);
     })
@@ -44,8 +43,7 @@ const createDesignation = (req, res) => {
 };
 
 const updateDesignation = (req, res) => {
-  const hasData = Object.keys(req.body).length > 0;
-  if (hasData) {
+  if (req.body) {
     Designation.findOneAndUpdate({ _id: req.params.id }, req.body, {
       new: true,
     })
@@ -61,15 +59,15 @@ const updateDesignation = (req, res) => {
 };
 
 const deleteDesignation = (req, res) => {
-  //   Designation.findOneAndDelete({ _id: req.params.id })
-  //     .then((data) => {
-  //       res
-  //         .status(200)
-  //         .send(Response.success(Message.DesignationDeletedSuccessfully));
-  //     })
-  //     .catch((err) =>
-  //       res.status(400).send(Response.error(Message.somethingWentWrong)),
-  //     );
+  Designation.findOneAndDelete({ _id: req.params.id })
+    .then((data) => {
+      res
+        .status(200)
+        .send(Response.success(Message.DesignationDeletedSuccessfully));
+    })
+    .catch((err) =>
+      res.status(400).send(Response.error(Message.somethingWentWrong)),
+    );
 };
 
 module.exports = {

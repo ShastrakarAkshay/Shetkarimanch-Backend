@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const { COLLECTIONS } = require("../common/collections.const");
 const designationSchema = new mongoose.Schema(
   {
-    name: String,
+    designationName: String,
     departmentId: String,
-    isDeptHead: Boolean,
+    isDepartmentHead: Boolean,
   },
   {
     timestamps: {

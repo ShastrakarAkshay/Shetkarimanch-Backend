@@ -24,9 +24,9 @@ const fetchDepartmentById = (req, res) => {
 };
 
 const createDepartment = (req, res) => {
-  const department = new Department(req.body);
-  department
-    .save()
+  const { departmentList } = req.body;
+  const payload = departmentList.map((dept) => ({ departmentName: dept }));
+  Department.insertMany(payload)
     .then((data) => {
       res.status(201).send(data);
     })
@@ -34,9 +34,12 @@ const createDepartment = (req, res) => {
 };
 
 const updateDepartment = (req, res) => {
-  const hasData = Object.keys(req.body).length > 0;
-  if (hasData) {
-    Department.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
+  if (req.body.departmentName) {
+    Department.findOneAndUpdate(
+      { _id: req.params.id },
+      { departmentName: req.body.departmentName },
+      { new: true },
+    )
       .then((data) => {
         data
           ? res.status(200).send(data)
@@ -49,15 +52,15 @@ const updateDepartment = (req, res) => {
 };
 
 const deleteDepartment = (req, res) => {
-  //   Department.findOneAndDelete({ _id: req.params.id })
-  //     .then((data) => {
-  //       res
-  //         .status(200)
-  //         .send(Response.success(Message.DepartmentDeletedSuccessfully));
-  //     })
-  //     .catch((err) =>
-  //       res.status(400).send(Response.error(Message.somethingWentWrong)),
-  //     );
+  Department.findOneAndDelete({ _id: req.params.id })
+    .then((data) => {
+      res
+        .status(200)
+        .send(Response.success(Message.DepartmentDeletedSuccessfully));
+    })
+    .catch((err) =>
+      res.status(400).send(Response.error(Message.somethingWentWrong)),
+    );
 };
 
 module.exports = {
