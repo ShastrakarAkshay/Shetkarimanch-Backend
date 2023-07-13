@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const { COLLECTIONS } = require("../common/collections.const");
-const departmentSchema = new mongoose.Schema(
+const categorySchema = new mongoose.Schema(
   {
-    departmentName: String,
+    categoryName: String,
     isDeleted: {
       type: Boolean,
       defaultValue: false,
@@ -17,7 +17,7 @@ const departmentSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model(
-  "departments",
-  departmentSchema,
-  COLLECTIONS.Departments,
+  "categories",
+  categorySchema,
+  COLLECTIONS.Categories,
 );

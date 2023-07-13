@@ -2,7 +2,11 @@ const Designation = require("../models/designation.model");
 const { Response, Message } = require("../common/errors.const");
 
 const fetchAllDesignation = (req, res) => {
-  const query = Designation.find();
+  const query = Designation.find({
+    isDeleted: {
+      $eq: false,
+    },
+  });
   query
     .exec()
     .then((data) => {
@@ -35,7 +39,11 @@ const fetchDesignationByDept = (req, res) => {
 
 const createDesignation = (req, res) => {
   const { designationList } = req.body;
-  Designation.insertMany(designationList)
+  const payload = designationList.map((item) => ({
+    ...item,
+    isDeleted: false,
+  }));
+  Designation.insertMany(payload)
     .then((data) => {
       res.status(201).send(data);
     })
@@ -59,7 +67,7 @@ const updateDesignation = (req, res) => {
 };
 
 const deleteDesignation = (req, res) => {
-  Designation.findOneAndDelete({ _id: req.params.id })
+  Designation.findOneAndUpdate({ _id: req.params.id }, { isDeleted: true })
     .then((data) => {
       res
         .status(200)

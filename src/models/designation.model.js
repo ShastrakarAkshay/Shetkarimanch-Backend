@@ -5,6 +5,10 @@ const designationSchema = new mongoose.Schema(
     designationName: String,
     departmentId: String,
     isDepartmentHead: Boolean,
+    isDeleted: {
+      type: Boolean,
+      defaultValue: false,
+    },
   },
   {
     timestamps: {
@@ -15,7 +19,7 @@ const designationSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model(
-  "designation",
+  "designations",
   designationSchema,
-  COLLECTIONS.Designation,
+  COLLECTIONS.Designations,
 );

@@ -1,8 +1,8 @@
-const Department = require("../models/department.model");
+const Category = require("../models/category.model");
 const { Response, Message } = require("../common/errors.const");
 
-const fetchAllDepartment = (req, res) => {
-  const query = Department.find({
+const fetchAllCategory = (req, res) => {
+  const query = Category.find({
     isDeleted: {
       $eq: false,
     },
@@ -17,8 +17,8 @@ const fetchAllDepartment = (req, res) => {
     });
 };
 
-const fetchDepartmentById = (req, res) => {
-  Department.findById(req.params.id)
+const fetchCategoryById = (req, res) => {
+  Category.findById(req.params.id)
     .then((data) => {
       data
         ? res.status(200).send(data)
@@ -27,24 +27,24 @@ const fetchDepartmentById = (req, res) => {
     .catch((err) => res.status(400).send(err));
 };
 
-const createDepartment = (req, res) => {
-  const { departmentList } = req.body;
-  const payload = departmentList.map((dept) => ({
-    departmentName: dept,
+const createCategory = (req, res) => {
+  const { categoryList } = req.body;
+  const payload = categoryList.map((dept) => ({
+    categoryName: dept,
     isDeleted: false,
   }));
-  Department.insertMany(payload)
+  Category.insertMany(payload)
     .then((data) => {
       res.status(201).send(data);
     })
     .catch((err) => res.status(400).send(err));
 };
 
-const updateDepartment = (req, res) => {
-  if (req.body.departmentName) {
-    Department.findOneAndUpdate(
+const updateCategory = (req, res) => {
+  if (req.body.categoryName) {
+    Category.findOneAndUpdate(
       { _id: req.params.id },
-      { departmentName: req.body.departmentName },
+      { categoryName: req.body.categoryName },
       { new: true },
     )
       .then((data) => {
@@ -58,12 +58,12 @@ const updateDepartment = (req, res) => {
   }
 };
 
-const deleteDepartment = (req, res) => {
-  Department.findOneAndUpdate({ _id: req.params.id }, { isDeleted: true })
+const deleteCategory = (req, res) => {
+  Category.findOneAndUpdate({ _id: req.params.id }, { isDeleted: true })
     .then((data) => {
       res
         .status(200)
-        .send(Response.success(Message.DepartmentDeletedSuccessfully));
+        .send(Response.success(Message.CategoryDeletedSuccessfully));
     })
     .catch((err) =>
       res.status(400).send(Response.error(Message.somethingWentWrong)),
@@ -71,9 +71,9 @@ const deleteDepartment = (req, res) => {
 };
 
 module.exports = {
-  fetchAllDepartment,
-  fetchDepartmentById,
-  createDepartment,
-  updateDepartment,
-  deleteDepartment,
+  fetchAllCategory,
+  fetchCategoryById,
+  createCategory,
+  updateCategory,
+  deleteCategory,
 };
