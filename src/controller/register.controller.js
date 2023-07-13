@@ -54,11 +54,11 @@ const verifyOtpAndRegister = async (req, res) => {
           });
           const userData = await user.save();
           if (userData) {
-            const token = await user.generateAuthToken();
-            res.cookie(CONFIG.AUTH_SECRET_KEY, token, {
-              httpOnly: true,
-              expires: appUtil.getExpiryTime(60), // 60 minutes
-            });
+            // const token = await user.generateAuthToken();
+            // res.cookie(CONFIG.AUTH_SECRET_KEY, token, {
+            //   httpOnly: true,
+            //   expires: appUtil.getExpiryTime(60), // 60 minutes
+            // });
             res.status(200).send(userData);
           } else {
             res.status(400).send(Response.error(Message.somethingWentWrong));

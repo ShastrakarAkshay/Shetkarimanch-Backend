@@ -41,6 +41,8 @@ const userSchema = new mongoose.Schema(
     designationId: String,
     isApproved: Boolean,
     isFarmer: Boolean,
+    isDeleted: Boolean,
+    isRejected: Boolean,
   },
   {
     timestamps: {
