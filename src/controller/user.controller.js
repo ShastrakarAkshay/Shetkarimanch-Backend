@@ -54,7 +54,14 @@ const updateStatus = (req, res, status) => {
 };
 
 const deleteUser = (req, res) => {
-  updateStatus(req, res, USER_STATUS.Deteted);
+  // updateStatus(req, res, USER_STATUS.Deleted);
+  User.findOneAndDelete({ _id: req.params.id })
+    .then((data) => {
+      data
+        ? res.status(200).send(data)
+        : res.status(404).send(Response.error(Message.somethingWentWrong));
+    })
+    .catch((err) => res.status(400).send(err));
 };
 
 const approveUser = (req, res) => {
