@@ -1,6 +1,7 @@
 const appUtil = require("../utils/app.util");
 const smsUtil = require("../utils/sms.utils");
 const { Response, Message } = require("../common/errors.const");
+const { ROLES, USER_STATUS } = require("../common/common.const");
 const { CONFIG } = require("../app.config");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
@@ -51,6 +52,11 @@ const verifyOtpAndRegister = async (req, res) => {
             ...body,
             pinCode: Number(body.pinCode),
             mobile: Number(_mobile),
+            roleId: Number(body.roleId),
+            status:
+              body.roleId === ROLES.Department || body.roleId === ROLES.Officer
+                ? USER_STATUS.Pending
+                : USER_STATUS.Approved,
           });
           const userData = await user.save();
           if (userData) {

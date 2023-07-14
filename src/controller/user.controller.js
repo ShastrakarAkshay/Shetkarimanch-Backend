@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const { Response, Message } = require("../common/errors.const");
+const { USER_STATUS } = require("../common/common.const");
 
 const fetchAllUser = (req, res) => {
   let filters = {};
@@ -27,17 +28,6 @@ const fetchUserById = (req, res) => {
     .catch((err) => res.status(400).send(err));
 };
 
-// should deprecate
-const createUser = (req, res) => {
-  // const user = new User(req.body);
-  // user
-  //   .save()
-  //   .then((data) => {
-  //     res.status(201).send(data);
-  //   })
-  //   .catch((err) => res.status(400).send(err));
-};
-
 const updateUser = (req, res) => {
   const hasData = Object.keys(req.body).length > 0;
   if (hasData) {
@@ -53,52 +43,31 @@ const updateUser = (req, res) => {
   }
 };
 
-const deleteUser = (req, res) => {
-  User.findOneAndUpdate(
-    { _id: req.params.id },
-    { isDeleted: true },
-    { new: true },
-  )
+const updateStatus = (req, res, status) => {
+  User.findOneAndUpdate({ _id: req.params.id }, { status }, { new: true })
     .then((data) => {
-      res.status(200).send(Response.success(Message.userDeletedSuccessfully));
+      data
+        ? res.status(200).send(data)
+        : res.status(404).send(Response.error(Message.somethingWentWrong));
     })
-    .catch((err) =>
-      res.status(400).send(Response.error(Message.somethingWentWrong)),
-    );
+    .catch((err) => res.status(400).send(err));
+};
+
+const deleteUser = (req, res) => {
+  updateStatus(req, res, USER_STATUS.Deteted);
 };
 
 const approveUser = (req, res) => {
-  User.findOneAndUpdate(
-    { _id: req.params.id },
-    { isApproved: true },
-    { new: true },
-  )
-    .then((data) => {
-      data
-        ? res.status(200).send(data)
-        : res.status(404).send(Response.error(Message.somethingWentWrong));
-    })
-    .catch((err) => res.status(400).send(err));
+  updateStatus(req, res, USER_STATUS.Approved);
 };
 
 const rejectUser = (req, res) => {
-  User.findOneAndUpdate(
-    { _id: req.params.id },
-    { isApproved: false, isRejected: true },
-    { new: true },
-  )
-    .then((data) => {
-      data
-        ? res.status(200).send(data)
-        : res.status(404).send(Response.error(Message.somethingWentWrong));
-    })
-    .catch((err) => res.status(400).send(err));
+  updateStatus(req, res, USER_STATUS.Rejected);
 };
 
 module.exports = {
   fetchAllUser,
   fetchUserById,
-  createUser,
   updateUser,
   deleteUser,
   approveUser,

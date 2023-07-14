@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
     district: String,
     pinCode: Number,
     roleId: {
-      type: Number || String,
+      type: Number,
       default: 2,
       enum: {
         values: [1, 2, 3, 4],
@@ -39,10 +39,9 @@ const userSchema = new mongoose.Schema(
     },
     departmentId: String,
     designationId: String,
-    isApproved: Boolean,
-    isFarmer: Boolean,
-    isDeleted: Boolean,
-    isRejected: Boolean,
+    status: {
+      type: Number,
+    },
   },
   {
     timestamps: {
