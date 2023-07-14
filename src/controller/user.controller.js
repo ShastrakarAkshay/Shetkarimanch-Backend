@@ -2,11 +2,7 @@ const User = require("../models/user.model");
 const { Response, Message } = require("../common/errors.const");
 
 const fetchAllUser = (req, res) => {
-  let filters = {
-    isDeleted: {
-      $eq: true,
-    },
-  };
+  let filters = {};
   if (req.query.roleId) {
     filters.roleId = {
       $in: req.query.roleId,
