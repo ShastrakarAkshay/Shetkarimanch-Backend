@@ -8,7 +8,7 @@ const CONFIG = {
     process.env.REGISTER_OTP_SECRET_KEY || "sm-reg-otp-secret-key",
   AUTH_SECRET_KEY: process.env.AUTH_SECRET_KEY || "sm-auth-token-secret-key",
   OTP_SECRET_KEY: process.env.OTP_SECRET_KEY || "sm-otp-token-secret-key",
-  UI_ORIGIN: "http://154.49.243.226",
+  UI_ORIGIN: "http://shetkarimanch.com",
 };
 
 module.exports = { CONFIG };
