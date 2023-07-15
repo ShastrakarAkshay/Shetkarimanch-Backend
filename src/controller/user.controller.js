@@ -1,11 +1,15 @@
 const User = require("../models/user.model");
 const { Response, Message } = require("../common/errors.const");
+const { USER_STATUS } = require("../common/common.const");
 
 const fetchAllUser = (req, res) => {
-  const query = User.find();
-  query.select("-tokens");
-  query
-    .exec()
+  let filters = {};
+  if (req.query.roleId) {
+    filters.roleId = {
+      $in: req.query.roleId,
+    };
+  }
+  User.find(filters)
     .then((data) => {
       res.status(200).send(data);
     })
@@ -20,17 +24,6 @@ const fetchUserById = (req, res) => {
       data
         ? res.status(200).send(data)
         : res.status(404).send(Response.error(Message.userDoesNotExists));
-    })
-    .catch((err) => res.status(400).send(err));
-};
-
-// should deprecate
-const createUser = (req, res) => {
-  const user = new User(req.body);
-  user
-    .save()
-    .then((data) => {
-      res.status(201).send(data);
     })
     .catch((err) => res.status(400).send(err));
 };
@@ -50,20 +43,40 @@ const updateUser = (req, res) => {
   }
 };
 
+const updateStatus = (req, res, status) => {
+  User.findOneAndUpdate({ _id: req.params.id }, { status }, { new: true })
+    .then((data) => {
+      data
+        ? res.status(200).send(data)
+        : res.status(404).send(Response.error(Message.somethingWentWrong));
+    })
+    .catch((err) => res.status(400).send(err));
+};
+
 const deleteUser = (req, res) => {
+  // updateStatus(req, res, USER_STATUS.Deleted);
   User.findOneAndDelete({ _id: req.params.id })
     .then((data) => {
-      res.status(200).send(Response.success(Message.userDeletedSuccessfully));
+      data
+        ? res.status(200).send(data)
+        : res.status(404).send(Response.error(Message.somethingWentWrong));
     })
-    .catch((err) =>
-      res.status(400).send(Response.error(Message.somethingWentWrong)),
-    );
+    .catch((err) => res.status(400).send(err));
+};
+
+const approveUser = (req, res) => {
+  updateStatus(req, res, USER_STATUS.Approved);
+};
+
+const rejectUser = (req, res) => {
+  updateStatus(req, res, USER_STATUS.Rejected);
 };
 
 module.exports = {
   fetchAllUser,
   fetchUserById,
-  createUser,
   updateUser,
   deleteUser,
+  approveUser,
+  rejectUser,
 };

@@ -16,4 +16,11 @@ const ROLES = {
   Officer: 4,
 };
 
-module.export = { BLOG_STATE, GRIEVIENCE_STATUS, ROLES };
+const USER_STATUS = {
+  Pending: 1,
+  Approved: 2,
+  Rejected: 3,
+  Deleted: 4,
+};
+
+module.exports = { BLOG_STATE, GRIEVIENCE_STATUS, ROLES, USER_STATUS };

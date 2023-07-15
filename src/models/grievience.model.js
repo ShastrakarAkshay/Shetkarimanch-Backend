@@ -24,7 +24,7 @@ const grievienceSchema = new mongoose.Schema(
     userId: {
       type: String,
     },
-    feedbacks: [],
+    feedbacks: [], // {message: string, submitter: id}
     document: {
       id: String,
       name: String,

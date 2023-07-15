@@ -8,6 +8,9 @@ const registerRoutes = require("./routes/register.routes");
 const loginRoutes = require("./routes/login.routes");
 const imageRoutes = require("./routes/image.routes");
 const grievienceRoutes = require("./routes/grievience.routes");
+const departmentRoutes = require("./routes/department.routes");
+const designationRoutes = require("./routes/designation.routes");
+const categoryRoutes = require("./routes/category.routes");
 
 // default
 router.get("/", (req, res) => res.send("Hey, Your API works !!"));
@@ -38,5 +41,14 @@ router.use("/image", imageRoutes);
 
 // Grievience
 router.use("/grievience", grievienceRoutes);
+
+// Department
+router.use("/department", departmentRoutes);
+
+// Designation
+router.use("/designation", designationRoutes);
+
+// Category
+router.use("/category", categoryRoutes);
 
 module.exports = router;
