@@ -5,6 +5,9 @@ const COLLECTIONS = {
   SuccessStories: "success-stories",
   images: "images",
   Grieviences: "grieviences",
+  Departments: "departments",
+  Designations: "designations",
+  Categories: "categories",
 };
 
 module.exports = { COLLECTIONS };

@@ -10,6 +10,7 @@ const Message = {
   otpSentSuccessfully: "OTP sent successfully",
   unableToSendOtp: "Unable to send OTP",
   loginSuccess: "Login successful.",
+  notApproved: "User is not approved yet. Please contact Admin.",
 };
 
 const Response = {

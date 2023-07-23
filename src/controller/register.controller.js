@@ -1,6 +1,7 @@
 const appUtil = require("../utils/app.util");
 const smsUtil = require("../utils/sms.utils");
 const { Response, Message } = require("../common/errors.const");
+const { ROLES, USER_STATUS } = require("../common/common.const");
 const { CONFIG } = require("../app.config");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
@@ -20,7 +21,10 @@ const validateUserAndSendOtp = async (req, res) => {
   });
   const success = await smsUtil.sendSms(otp, req.params.mobile);
   success && success.data
-    ? res.status(200).send(Response.success(Message.otpSentSuccessfully))
+    ? res.status(200).send({
+        ...Response.success(Message.otpSentSuccessfully),
+        token: regOtpToken,
+      })
     : res.status(400).send(Response.error(Message.unableToSendOtp));
 };
 
@@ -32,7 +36,8 @@ const verifyOtpAndRegister = async (req, res) => {
     return;
   }
   const userOtp = req.params.otp;
-  const regOtpToken = req.cookies[CONFIG.REGISTER_OTP_SECRET_KEY];
+  // const regOtpToken = req.cookies[CONFIG.REGISTER_OTP_SECRET_KEY];
+  const regOtpToken = req.body.token;
   jwt.verify(
     regOtpToken,
     CONFIG.REGISTER_OTP_SECRET_KEY,
@@ -47,14 +52,19 @@ const verifyOtpAndRegister = async (req, res) => {
             ...body,
             pinCode: Number(body.pinCode),
             mobile: Number(_mobile),
+            roleId: Number(body.roleId),
+            status:
+              body.roleId === ROLES.Department || body.roleId === ROLES.Officer
+                ? USER_STATUS.Pending
+                : USER_STATUS.Approved,
           });
           const userData = await user.save();
           if (userData) {
-            const token = await user.generateAuthToken();
-            res.cookie(CONFIG.AUTH_SECRET_KEY, token, {
-              httpOnly: true,
-              expires: appUtil.getExpiryTime(60), // 60 minutes
-            });
+            // const token = await user.generateAuthToken();
+            // res.cookie(CONFIG.AUTH_SECRET_KEY, token, {
+            //   httpOnly: true,
+            //   expires: appUtil.getExpiryTime(60), // 60 minutes
+            // });
             res.status(200).send(userData);
           } else {
             res.status(400).send(Response.error(Message.somethingWentWrong));
