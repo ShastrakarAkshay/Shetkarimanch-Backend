@@ -3,7 +3,7 @@ const { COLLECTIONS } = require("../common/collections.const");
 
 const grievienceSchema = new mongoose.Schema(
   {
-    department: {
+    departmentId: {
       type: String,
       required: true,
     },
