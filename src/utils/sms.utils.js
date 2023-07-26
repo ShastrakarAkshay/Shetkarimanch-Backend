@@ -10,7 +10,7 @@ const sendSms = (otp, mobile) => {
       sender: "grAGRO",
       route: 4,
       country: 91,
-      DLT_TE_ID: "1307166952390775178",
+      DLT_TE_ID: "1307168976029269577",
     },
   });
 };
