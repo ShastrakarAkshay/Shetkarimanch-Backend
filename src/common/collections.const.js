@@ -8,6 +8,7 @@ const COLLECTIONS = {
   Departments: "departments",
   Designations: "designations",
   Categories: "categories",
+  Subject: "subject",
 };
 
 module.exports = { COLLECTIONS };
