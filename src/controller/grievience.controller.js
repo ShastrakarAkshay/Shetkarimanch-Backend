@@ -44,8 +44,7 @@ const fetchAllGrievienceByDeptId = (req, res) => {
 
 const fetchAllGrievienceByDeptAndDesig = (req, res) => {
   Grievience.find({
-    departmentId: req.query.departmentId,
-    designationId: req.query.designationId,
+    designationId: req.params.id,
   })
     .then((data) => {
       if (data) {
