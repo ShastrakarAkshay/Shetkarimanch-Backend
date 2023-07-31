@@ -7,6 +7,9 @@ const grievienceSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    designationId: {
+      type: String,
+    },
     subject: {
       type: String,
       required: true,
