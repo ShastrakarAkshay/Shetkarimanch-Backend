@@ -9,6 +9,7 @@ const COLLECTIONS = {
   Designations: "designations",
   Categories: "categories",
   Subject: "subject",
+  Taluka: "taluka",
 };
 
 module.exports = { COLLECTIONS };

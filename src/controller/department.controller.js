@@ -2,11 +2,17 @@ const Department = require("../models/department.model");
 const { Response, Message } = require("../common/errors.const");
 
 const fetchAllDepartment = (req, res) => {
-  const query = Department.find({
+  const filter = {
     isDeleted: {
       $eq: false,
     },
-  });
+  };
+  if (req.query.talukaId) {
+    filter.talukaId = {
+      $eq: req.query.talukaId,
+    };
+  }
+  const query = Department.find(filter).sort({ updatedAt: -1 });
   query
     .exec()
     .then((data) => {
@@ -27,10 +33,22 @@ const fetchDepartmentById = (req, res) => {
     .catch((err) => res.status(400).send(err));
 };
 
+const fetchDepartmentByTalukaId = (req, res) => {
+  Department.find({ talukaId: req.params.id })
+    .sort({ updatedAt: -1 })
+    .then((data) => {
+      data
+        ? res.status(200).send(data)
+        : res.status(404).send(Response.error(Message.somethingWentWrong));
+    })
+    .catch((err) => res.status(400).send(err));
+};
+
 const createDepartment = (req, res) => {
   const { departmentList } = req.body;
   const payload = departmentList.map((dept) => ({
-    departmentName: dept,
+    talukaId: dept.talukaId,
+    departmentName: dept.departmentName,
     isDeleted: false,
   }));
   Department.insertMany(payload)
@@ -41,10 +59,11 @@ const createDepartment = (req, res) => {
 };
 
 const updateDepartment = (req, res) => {
-  if (req.body.departmentName) {
+  const { departmentName } = req.body;
+  if (departmentName) {
     Department.findOneAndUpdate(
       { _id: req.params.id },
-      { departmentName: req.body.departmentName },
+      { departmentName },
       { new: true },
     )
       .then((data) => {
@@ -73,6 +92,7 @@ const deleteDepartment = (req, res) => {
 module.exports = {
   fetchAllDepartment,
   fetchDepartmentById,
+  fetchDepartmentByTalukaId,
   createDepartment,
   updateDepartment,
   deleteDepartment,
