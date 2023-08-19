@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 const { COLLECTIONS } = require("../common/collections.const");
 const designationSchema = new mongoose.Schema(
   {
-    designationName: String,
+    talukaId: String,
     departmentId: String,
+    designationName: String,
     isDepartmentHead: Boolean,
     isDeleted: {
       type: Boolean,
