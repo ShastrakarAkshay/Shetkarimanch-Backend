@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 const { COLLECTIONS } = require("../common/collections.const");
 const subjectSchema = new mongoose.Schema(
   {
-    subjectName: String,
+    talukaId: String,
     departmentId: String,
     designationId: String,
+    subjectName: String,
     isDeleted: {
       type: Boolean,
       defaultValue: false,

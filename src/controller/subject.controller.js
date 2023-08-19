@@ -2,12 +2,20 @@ const Subject = require("../models/subject.model");
 const { Response, Message } = require("../common/errors.const");
 
 const fetchAllSubject = (req, res) => {
-  const query = Subject.find({
-    isDeleted: {
-      $eq: false,
-    },
-  });
-  query
+  const { talukaId, departmentId, designationId } = req.query;
+  const filter = { isDeleted: { $eq: false } };
+  if (talukaId) {
+    filter.talukaId = { $eq: talukaId };
+  }
+  if (departmentId) {
+    filter.departmentId = { $eq: departmentId };
+  }
+  if (designationId) {
+    filter.designationId = { $eq: designationId };
+  }
+
+  Subject.find(filter)
+    .sort({ updatedAt: -1 })
     .exec()
     .then((data) => {
       res.status(200).send(data);
@@ -29,6 +37,7 @@ const fetchSubjectById = (req, res) => {
 
 const fetchSubjectByDept = (req, res) => {
   Subject.find({ departmentId: req.params.id })
+    .sort({ updatedAt: -1 })
     .then((data) => {
       data
         ? res.status(200).send(data)

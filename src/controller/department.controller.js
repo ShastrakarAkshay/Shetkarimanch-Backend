@@ -2,18 +2,12 @@ const Department = require("../models/department.model");
 const { Response, Message } = require("../common/errors.const");
 
 const fetchAllDepartment = (req, res) => {
-  const filter = {
-    isDeleted: {
-      $eq: false,
-    },
-  };
+  const filter = { isDeleted: { $eq: false } };
   if (req.query.talukaId) {
-    filter.talukaId = {
-      $eq: req.query.talukaId,
-    };
+    filter.talukaId = { $eq: req.query.talukaId };
   }
-  const query = Department.find(filter).sort({ updatedAt: -1 });
-  query
+  Department.find(filter)
+    .sort({ updatedAt: -1 })
     .exec()
     .then((data) => {
       res.status(200).send(data);

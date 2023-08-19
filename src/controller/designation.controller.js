@@ -10,8 +10,8 @@ const fetchAllDesignation = (req, res) => {
   if (departmentId) {
     filter.departmentId = { $eq: departmentId };
   }
-  const query = Designation.find(filter).sort({ updatedAt: -1 });
-  query
+  Designation.find(filter)
+    .sort({ updatedAt: -1 })
     .exec()
     .then((data) => {
       res.status(200).send(data);
