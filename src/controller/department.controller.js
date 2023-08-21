@@ -3,9 +3,6 @@ const { Response, Message } = require("../common/errors.const");
 
 const fetchAllDepartment = (req, res) => {
   const filter = { isDeleted: { $eq: false } };
-  if (req.query.talukaId) {
-    filter.talukaId = { $eq: req.query.talukaId };
-  }
   Department.find(filter)
     .sort({ updatedAt: -1 })
     .exec()
@@ -41,7 +38,6 @@ const fetchDepartmentByTalukaId = (req, res) => {
 const createDepartment = (req, res) => {
   const { departmentList } = req.body;
   const payload = departmentList.map((dept) => ({
-    talukaId: dept.talukaId,
     departmentName: dept.departmentName,
     isDeleted: false,
   }));

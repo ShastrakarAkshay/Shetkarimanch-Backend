@@ -2,11 +2,8 @@ const Subject = require("../models/subject.model");
 const { Response, Message } = require("../common/errors.const");
 
 const fetchAllSubject = (req, res) => {
-  const { talukaId, departmentId, designationId } = req.query;
+  const { departmentId, designationId } = req.query;
   const filter = { isDeleted: { $eq: false } };
-  if (talukaId) {
-    filter.talukaId = { $eq: talukaId };
-  }
   if (departmentId) {
     filter.departmentId = { $eq: departmentId };
   }

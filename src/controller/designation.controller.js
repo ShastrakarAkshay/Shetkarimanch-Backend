@@ -2,11 +2,8 @@ const Designation = require("../models/designation.model");
 const { Response, Message } = require("../common/errors.const");
 
 const fetchAllDesignation = (req, res) => {
-  const { talukaId, departmentId } = req.query;
+  const { departmentId } = req.query;
   const filter = { isDeleted: { $eq: false } };
-  if (talukaId) {
-    filter.talukaId = { $eq: talukaId };
-  }
   if (departmentId) {
     filter.departmentId = { $eq: departmentId };
   }
