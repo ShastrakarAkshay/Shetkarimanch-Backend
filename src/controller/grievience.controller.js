@@ -23,7 +23,7 @@ const fetchAllGrieviences = (req, res) => {
 };
 
 const fetchGrievienceById = (req, res) => {
-  Grievience.findById(req.params.id)
+  Grievience.findOne({ grievienceId: req.params.id })
     .then((data) => {
       if (data) {
         res.status(200).send(data);
