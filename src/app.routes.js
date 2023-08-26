@@ -12,6 +12,7 @@ const departmentRoutes = require("./routes/department.routes");
 const designationRoutes = require("./routes/designation.routes");
 const categoryRoutes = require("./routes/category.routes");
 const subjectRoutes = require("./routes/subject.routes");
+const talukaRoutes = require("./routes/taluka.routes");
 
 // default
 router.get("/", (req, res) => res.send("Hey, Your API works !!"));
@@ -54,5 +55,8 @@ router.use("/category", categoryRoutes);
 
 // Subject
 router.use("/subject", subjectRoutes);
+
+// Taluka
+router.use("/taluka", talukaRoutes);
 
 module.exports = router;

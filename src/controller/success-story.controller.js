@@ -3,22 +3,16 @@ const multer = require("../utils/multer.util");
 const imageController = require("./image.controller");
 
 const fetchAllStories = (req, res) => {
+  const { fromDate, toDate, talukaId, createdBy } = req.query;
   const filters = {};
-  if (req.query.fromDate && req.query.toDate) {
-    filters.createdAt = {
-      $gte: new Date(req.query.fromDate),
-      $lte: new Date(req.query.toDate),
-    };
+  if (fromDate && toDate) {
+    filters.createdAt = { $gte: new Date(fromDate), $lte: new Date(toDate) };
   }
-  if (req.query.taluka) {
-    filters["farmerDetails.taluka"] = {
-      $eq: req.query.taluka,
-    };
+  if (talukaId) {
+    filters["farmerDetails.talukaId"] = { $eq: talukaId };
   }
-  if (req.query.createdBy) {
-    filters.createdBy = {
-      $eq: req.query.createdBy,
-    };
+  if (createdBy) {
+    filters.createdBy = { $eq: createdBy };
   }
 
   SuccessStory.find(filters)

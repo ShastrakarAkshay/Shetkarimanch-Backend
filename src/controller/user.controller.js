@@ -3,11 +3,19 @@ const { Response, Message } = require("../common/errors.const");
 const { USER_STATUS } = require("../common/common.const");
 
 const fetchAllUser = (req, res) => {
+  const { roleId, roleIds, status, talukaId } = req.query;
   let filters = {};
-  if (req.query.roleId) {
-    filters.roleId = {
-      $in: req.query.roleId,
-    };
+  if (roleIds) {
+    filters.roleId = { $in: roleIds };
+  }
+  if (roleId) {
+    filters.roleId = { $eq: roleId };
+  }
+  if (status) {
+    filters.status = { $eq: status };
+  }
+  if (talukaId) {
+    filters.talukaId = { $eq: talukaId };
   }
   User.find(filters)
     .then((data) => {

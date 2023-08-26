@@ -2,12 +2,13 @@ const Designation = require("../models/designation.model");
 const { Response, Message } = require("../common/errors.const");
 
 const fetchAllDesignation = (req, res) => {
-  const query = Designation.find({
-    isDeleted: {
-      $eq: false,
-    },
-  });
-  query
+  const { departmentId } = req.query;
+  const filter = { isDeleted: { $eq: false } };
+  if (departmentId) {
+    filter.departmentId = { $eq: departmentId };
+  }
+  Designation.find(filter)
+    .sort({ updatedAt: -1 })
     .exec()
     .then((data) => {
       res.status(200).send(data);
@@ -52,9 +53,16 @@ const createDesignation = (req, res) => {
 
 const updateDesignation = (req, res) => {
   if (req.body) {
-    Designation.findOneAndUpdate({ _id: req.params.id }, req.body, {
-      new: true,
-    })
+    Designation.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        designationName: req.body.designationName,
+        isDepartmentHead: req.body.isDepartmentHead,
+      },
+      {
+        new: true,
+      },
+    )
       .then((data) => {
         data
           ? res.status(200).send(data)

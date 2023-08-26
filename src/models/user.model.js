@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
     },
     address: String,
     village: String,
-    taluka: String,
+    talukaId: String,
     district: String,
     pinCode: Number,
     roleId: {
