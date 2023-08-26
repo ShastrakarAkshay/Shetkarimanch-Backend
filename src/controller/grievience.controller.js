@@ -2,6 +2,38 @@ const Grievience = require("../models/grievience.model");
 const multer = require("../utils/multer.util");
 const imageController = require("./image.controller");
 
+const fetchAllGrieviences = (req, res) => {
+  const { talukaId, departmentId, designationId } = req.query;
+  let filters = {};
+  if (talukaId) {
+    filters.talukaId = { $eq: talukaId };
+  }
+  if (departmentId) {
+    filters.departmentId = { $eq: departmentId };
+  }
+  if (designationId) {
+    filters.designationId = { $eq: designationId };
+  }
+  Grievience.find(filters)
+    .limit(req.query?.limit || 0)
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((err) => res.status(400).send(err));
+};
+
+const fetchGrievienceById = (req, res) => {
+  Grievience.findById(req.params.id)
+    .then((data) => {
+      if (data) {
+        res.status(200).send(data);
+      } else {
+        res.status(400).send("Invalid data");
+      }
+    })
+    .catch((err) => res.status(400).send(err));
+};
+
 const createGrievience = async (req, res) => {
   const data = { ...req.body };
   if (req.file) {
@@ -16,65 +48,6 @@ const createGrievience = async (req, res) => {
       multer.deleteFile(req.file?.filename);
       res.status(400).send(err);
     });
-};
-
-const fetchAllGrievienceByUserId = (req, res) => {
-  Grievience.find({ userId: req.params.userId })
-    .then((data) => {
-      if (data) {
-        res.status(200).send(data);
-      } else {
-        res.status(400).send("Invalid data");
-      }
-    })
-    .catch((err) => res.status(400).send(err));
-};
-
-const fetchAllGrievienceByDeptId = (req, res) => {
-  Grievience.find({ departmentId: req.params.id })
-    .then((data) => {
-      if (data) {
-        res.status(200).send(data);
-      } else {
-        res.status(400).send("Invalid data");
-      }
-    })
-    .catch((err) => res.status(400).send(err));
-};
-
-const fetchAllGrievienceByDeptAndDesig = (req, res) => {
-  Grievience.find({
-    designationId: req.params.id,
-  })
-    .then((data) => {
-      if (data) {
-        res.status(200).send(data);
-      } else {
-        res.status(400).send("Invalid data");
-      }
-    })
-    .catch((err) => res.status(400).send(err));
-};
-
-const fetchAllGrieviences = (req, res) => {
-  Grievience.find()
-    .limit(req.query?.limit || 0)
-    .then((data) => {
-      res.status(200).send(data);
-    })
-    .catch((err) => res.status(400).send(err));
-};
-
-const fetchGrievienceById = (req, res) => {
-  Grievience.findOne({ _id: req.params.id })
-    .then((data) => {
-      if (data) {
-        res.status(200).send(data);
-      } else {
-        res.status(400).send("Invalid data");
-      }
-    })
-    .catch((err) => res.status(400).send(err));
 };
 
 const updateGrievienceById = async (req, res) => {
@@ -104,9 +77,6 @@ module.exports = {
   createGrievience,
   fetchAllGrieviences,
   fetchGrievienceById,
-  fetchAllGrievienceByUserId,
   updateGrievienceById,
   deleteGrievienceById,
-  fetchAllGrievienceByDeptId,
-  fetchAllGrievienceByDeptAndDesig,
 };
