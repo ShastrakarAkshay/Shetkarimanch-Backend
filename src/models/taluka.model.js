@@ -1,10 +1,8 @@
 const mongoose = require("mongoose");
 const { COLLECTIONS } = require("../common/collections.const");
-const designationSchema = new mongoose.Schema(
+const talukaSchema = new mongoose.Schema(
   {
-    departmentId: String,
-    designationName: String,
-    isDepartmentHead: Boolean,
+    talukaName: String,
     isDeleted: {
       type: Boolean,
       defaultValue: false,
@@ -18,8 +16,4 @@ const designationSchema = new mongoose.Schema(
   },
 );
 
-module.exports = mongoose.model(
-  "designations",
-  designationSchema,
-  COLLECTIONS.Designations,
-);
+module.exports = mongoose.model("taluka", talukaSchema, COLLECTIONS.Taluka);

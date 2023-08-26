@@ -18,22 +18,16 @@ const createBlog = async (req, res) => {
 };
 
 const fetchAllBlogs = (req, res) => {
+  const { fromDate, toDate, categoryId, createdBy } = req.query;
   const filters = {};
-  if (req.query.fromDate && req.query.toDate) {
-    filters.createdAt = {
-      $gte: new Date(req.query.fromDate),
-      $lte: new Date(req.query.toDate),
-    };
+  if (fromDate && toDate) {
+    filters.createdAt = { $gte: new Date(fromDate), $lte: new Date(toDate) };
   }
-  if (req.query.category) {
-    filters.category = {
-      $eq: req.query.category,
-    };
+  if (categoryId) {
+    filters.categoryId = { $eq: categoryId };
   }
-  if (req.query.createdBy) {
-    filters.createdBy = {
-      $eq: req.query.createdBy,
-    };
+  if (createdBy) {
+    filters.createdBy = { $eq: createdBy };
   }
   Blog.find(filters)
     .limit(req.query?.limit || 0)

@@ -3,6 +3,8 @@ const { COLLECTIONS } = require("../common/collections.const");
 
 const grievienceSchema = new mongoose.Schema(
   {
+    grievienceId: { type: String, required: true },
+    talukaId: { type: String, required: true },
     departmentId: {
       type: String,
       required: true,
