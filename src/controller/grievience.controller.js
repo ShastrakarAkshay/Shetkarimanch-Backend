@@ -3,7 +3,7 @@ const multer = require("../utils/multer.util");
 const imageController = require("./image.controller");
 
 const fetchAllGrieviences = (req, res) => {
-  const { talukaId, departmentId, designationId } = req.query;
+  const { talukaId, departmentId, designationId, subject } = req.query;
   let filters = {};
   if (talukaId) {
     filters.talukaId = { $eq: talukaId };
@@ -13,6 +13,9 @@ const fetchAllGrieviences = (req, res) => {
   }
   if (designationId) {
     filters.designationId = { $eq: designationId };
+  }
+  if (subject) {
+    filters.subject = { $eq: subject };
   }
   Grievience.find(filters)
     .limit(req.query?.limit || 0)
