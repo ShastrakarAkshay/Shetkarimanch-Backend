@@ -29,7 +29,7 @@ const grievienceSchema = new mongoose.Schema(
     userId: {
       type: String,
     },
-    feedbacks: [], // {message: string, submitter: id}
+    feedbacks: [], // {message: string, submitter: id, submitterName: string}
     document: {
       id: String,
       name: String,
